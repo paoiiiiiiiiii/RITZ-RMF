@@ -47,21 +47,23 @@ $criticalItems = $rmf->getCriticalItems();
                 </div>
                 
 
-                <div class="w-100% flex h-[32rem] flex">
-                    <div class="justify-self-start w-full bg-[#f0faff] rounded-b-lg px-5 max-h-106 flex">
+                <div class="w-100% flex h-[32rem]">
+                    <div class="justify-self-start w-full bg-[#f0faff] rounded-b-lg px-5 max-h-106 flex grid grid-rows-2">
                         <div class="flex w-full">
-                            <div class="flex-1 items-center bg-[#1bcb00] text-white rounded-md h-[8rem] mx-3 my-5">Monthly Sales <?= $sales ?></div>
-                            <div class="flex-1 items-center bg-[#00b9e5] text-white rounded-md h-[8rem] mx-3 my-5">Product Line <?= $inventory ?></div>
-                            <div class="flex-1 items-center bg-[#f8de00] text-white rounded-md h-[8rem] mx-3 my-5">Stocks on Hand <?= $stocks ?></div>
-                            <div class="flex-1 items-center bg-[#ff6363] text-white rounded-md h-[8rem] mx-3 my-5">Critical Items <?= $criticalItems ?></div>
+                            <div class="flex-1 items-center bg-[#1bcb00] text-white rounded-md h-[8rem] mx-3 my-5 text-center py-12">Monthly Sales <?= $sales ?></div>
+                            <div class="flex-1 items-center bg-[#00b9e5] text-white rounded-md h-[8rem] mx-3 my-5 text-center py-12">Product Line <?= $inventory ?></div>
+                            <div class="flex-1 items-center bg-[#f8de00] text-white rounded-md h-[8rem] mx-3 my-5 text-center py-12">Stocks on Hand <?= $stocks ?></div>
+                            <div class="flex-1 items-center bg-[#ff6363] text-white rounded-md h-[8rem] mx-3 my-5 text-center py-12">Critical Items <?= $criticalItems ?></div>
                         </div>
-
-                        <a href="adminProducts.php">Products</a>
-                        <a href="suppliers.php">Suppliers</a>
-                        <a href="stockEntry.php">Stock Entry</a>
-                        <a href="topSelling.php">Records</a>
+                        <div class="grid grid-cols-3 w-4/5 ml-14">
+                            <a href="adminProducts.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">Products</div></a>
+                            <a href="suppliers.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">Suppliers</div></a>
+                            <a href="stockEntry.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">Stock Entry</div></a>
+                            <a href="topSelling.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">Records</div></a>
+                            <a href="salesHistory.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">Sales History</div></a>
+                            <a href="userSettings.php"><div class="flex-1 items-center rounded-md h-[4rem] bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-52 text-center py-5">User Settings</div></a>
+                        </div>
                     </div>
-                    
                 </div>
                 
             </div>

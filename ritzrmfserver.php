@@ -113,6 +113,46 @@ Class Hardware {
 		}
 	}
 
+	public function changePassword(){
+		if ($_SESSION['authentication']) {
+			if ($_SESSION['role'] == "admin"){
+				$message="";
+				if (isset($_POST['save'])){
+					$email = $_POST['email'];
+					$oldPassword = md5($_POST['oldPassword']);
+					$newPassword = $_POST['newPassword'];
+					$newPassword1 = $_POST['newPassword1'];
+
+					$activeUser = $_SESSION['id'];
+					$connection = $this->openConnection();
+					$sql = $connection->prepare("SELECT * FROM user WHERE user_id = '$activeUser'");
+					$sql->execute();
+					$userinfo = $sql->fetch();
+
+					if ($newPassword == $newPassword1 ){
+						if (($oldPassword == $userinfo['password']) && ($email == $userinfo['email'])){
+							$newPassword = md5($newPassword1);
+							$connection = $this->openConnection();
+							$sql = $connection->prepare("UPDATE user SET password='$newPassword' WHERE user_id = '$activeUser'");
+							$sql->execute();
+							$message="Success!";
+
+							return $message;
+						} else {
+							$message="Old Password or Email is incorrect!";
+							return $message;
+						}
+					} else{
+						$message = "The two Passwords do not match!";
+						return $message;
+					}
+				}
+			}
+		} else {
+			header ('location:login.php');
+		}
+	}
+
 	public function home(){
 		if ($_SESSION['authentication']) {
 			if ($_SESSION['role'] == "admin"){
@@ -569,14 +609,14 @@ Class Hardware {
 	public function showHistory(){
 		if ($_SESSION['authentication']) {
 			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id WHERE quantity_bought != '0' ORDER BY transaction_id DESC;");
+			$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' ORDER BY transaction_num.transaction_id DESC;");
 			$sql->execute();
 			$productInfo = $sql->fetchAll();
 
 			if (isset($_POST['searchProduct'])){
 				$searchTag = $_POST['searchTag'];
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id WHERE quantity_bought != '0' AND product_code = '$searchTag' ORDER BY transaction_id DESC;");
+				$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND barcode = '$searchTag' ORDER BY transaction_num.transaction_id DESC;");
 				$sql->execute();
 				$productInfo = $sql->fetchAll();
 
@@ -670,13 +710,24 @@ Class Hardware {
 		$sql = $connection->prepare($query);
 		$sql->execute();
 		$sales = $sql->fetchAll();
+
+		$query = "SELECT * FROM cancelled_order WHERE EXTRACT(MONTH FROM date) = '$month' AND EXTRACT(YEAR FROM date) = '$year';";
+		$sql = $connection->prepare($query);
+		$sql->execute();
+		$cancelledSales = $sql->fetchAll();
+
 		$monthlySales = 0;
-		
+		$monthlyCancelledSales = 0;
+
 		foreach ($sales as $monthlySale){
 			$monthlySales += $monthlySale['amount'];
 		}
 
-		return $monthlySales;
+		foreach ($cancelledSales as $monthlyCancelledSale){
+			$monthlyCancelledSales += $monthlyCancelledSale['total_cancelled'];
+		}
+
+		return $monthlySales-$monthlyCancelledSales;
 	}
 
 	public function getProductLine(){
@@ -877,6 +928,92 @@ Class Hardware {
 		}
 	}
 
+	public function soldItems(){
+		if ($_SESSION['authentication']) {
+			if ($_SESSION['role'] == "admin"){
+				$connection = $this->openConnection();
+				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC; ");
+				$sql->execute();
+				$topSelling = $sql->fetchAll();
+
+				return $topSelling;
+			}
+
+		} else {
+			header ('location:login.php');
+		}
+	}
+
+	public function criticalStocks(){
+		if ($_SESSION['authentication']) {
+			if ($_SESSION['role'] == "admin"){
+				$connection = $this->openConnection();
+				$sql = $connection->prepare("SELECT * FROM inventory WHERE quantity <= 50;");
+				$sql->execute();
+				$criticalStocks = $sql->fetchAll();
+
+				return $criticalStocks;
+			}
+
+		} else {
+			header ('location:login.php');
+		}
+	}
+
+	public function cancelledItems(){
+		if ($_SESSION['authentication']) {
+			if ($_SESSION['role'] == "admin"){
+				$connection = $this->openConnection();
+				$sql = $connection->prepare("SELECT * FROM cancelled_order ORDER BY cancelled_id DESC;");
+				$sql->execute();
+				$cancelledItems = $sql->fetchAll();
+
+				if (isset($_POST['searchProduct'])){
+					$searchTag = $_POST['searchTag'];
+
+					$connection = $this->openConnection();
+					$sql = $connection->prepare("SELECT * FROM cancelled_order WHERE barcode = '$searchTag'");
+					$sql->execute();
+					$cancelledItems = $sql->fetchAll();
+
+					return $cancelledItems;
+				} else {
+					return $cancelledItems;
+				}
+			}
+
+		} else {
+			header ('location:login.php');
+		}
+	}
+
+	public function stockInRecord(){
+		if ($_SESSION['authentication']) {
+			if ($_SESSION['role'] == "admin"){
+				$connection = $this->openConnection();
+				$sql = $connection->prepare("SELECT *,stockin.stock_by,inventory.product_brand FROM stock_in_history INNER JOIN stockin ON stock_in_history.stockin_id = stockin.stockin_id INNER JOIN inventory ON stock_in_history.barcode = inventory.barcode ORDER BY stock_in_history.stockin_id DESC;");
+				$sql->execute();
+				$stockInRecord = $sql->fetchAll();
+
+				if (isset($_POST['searchProduct'])){
+					$searchTag = $_POST['searchTag'];
+
+					$connection = $this->openConnection();
+					$sql = $connection->prepare("SELECT *,stockin.stock_by,inventory.product_brand FROM stock_in_history INNER JOIN stockin ON stock_in_history.stockin_id = stockin.stockin_id INNER JOIN inventory ON stock_in_history.barcode = inventory.barcode WHERE stock_in_history.barcode = '$searchTag' ORDER BY stock_in_history.stockin_id DESC");
+					$sql->execute();
+					$stockInRecord = $sql->fetchAll();
+
+					return $stockInRecord;
+				} else {
+					return $stockInRecord;
+				}
+			}
+
+		} else {
+			header ('location:login.php');
+		}
+	}
+
 	public function setUserProfile(){
 		if ($_SESSION['authentication']) {
 			//active user id
@@ -1068,6 +1205,6 @@ Class Hardware {
 <!-- SELECT SUM(quantity_bought), SUM(total_price), product_id FROM transaction GROUP BY product_id ORDER BY SUM(quantity_bought) DESC; -->
 <!-- SELECT SUM(transaction.quantity_bought), SUM(transaction.total_price), transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC LIMIT 5; -->
 <!-- SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC LIMIT 5; -->
-
+<!-- SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC; -->
 <!-- select Date, TotalAllowance from Calculation where EmployeeId = 1
              and Date between '2011/02/25' and '2011/02/27' -->

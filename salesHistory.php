@@ -2,7 +2,7 @@
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
-$topSelling = $rmf->topSelling();
+$saleHistory = $rmf->showHistory();
 
 date_default_timezone_set('Asia/Manila');
 $date = date("Y-m-d");
@@ -19,33 +19,6 @@ $time = date("h:i:sa");
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-
-                <?php
-                    foreach ($topSelling as $topSellingProducts) {
-                        echo "['".$topSellingProducts['product_name']."',".$topSellingProducts['total_sold']."],";
-                    }
-                ?>
-
-            ]);
-
-            var options = {
-            title: 'Top Selling Products'
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-        }
-        </script>
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
@@ -61,12 +34,7 @@ $time = date("h:i:sa");
                         </div>
                     </div>
                     <div class="justify-self-stretch mx-1 w-3/5 px-2 flex items-center">
-                        <p href="topSelling.php" class="text-xs ml-3 text-[#2986CC] font-bold outline outline-offset-1 outline-[#2986CC] rounded-md bg-[#67b0e7] p-2 text-white">TOP SELLING</p>
-                        <a href="soldItems.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">SOLD ITEMS</p></a>
-                        <a href="criticalStocks.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">CRITICAL STOCKS</p></a>
-                        <a href="inventoryList.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">INVENTORY LIST</p></a>
-                        <a href="cancelledItems.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">CANCELLED ITEMS</p></a>
-                        <a href="stockInRecord.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">STOCK IN HISTORY</p></a>
+                        <p class="text-[2rem] text-[#2986CC] font-bold ml-4">SALES HISTORY</p>
                     </div>
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
@@ -78,48 +46,64 @@ $time = date("h:i:sa");
                 </div>
 
                 <div class="w-full flex h-[32rem]">
-                    <div class="justify-self-start w-3/5 bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106">
-                        <div class="m-auto mt-3">
-                            <form>
+                    <div class="justify-self-start w-full bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106">
+                        <div class="mt-3 w-full flex">
+                            <form class="w-2/5">
                                 <label class="text-md text-[#2986CC] mt-2">From</label>
                                 <input type="date" name="from" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md"></input>
                                 <label class="ml-2 text-md text-[#2986CC] mt-2">To</label>
                                 <input type="date" name="to" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md"></input>
                                 <button type="submit" name="betweenDates" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Filter</button>
                             </form>
+  
+                            <form method="post" action="salesHistory.php" class="w-1/5">
+                                <input type="text" name="searchTag" placeholder="Search Barcode" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
+                                <button type="submit" name="searchProduct" class="ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Search</button>
+                            </form>
+
+                            <div class="w-1/5">
+                                <a href="salesHistory.php"><button class="w-24 ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">All</button></a>
+                            </div>
+                            <div class="w-1/5">
+                                <a href=""><button class=" w-24 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Print</button></a>
+                            </div>
                         </div>   
+
+
                         <table class="justify-self-stretch w-full m-auto mt-3">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
                                         <td class="pl-2 rounded-tl-md py-2">#</td>
+                                        <td class="py-2">Invoice No.</td>
                                         <td class="py-2">PCode</td>
+                                        <td class="py-2">Barcode</td>
                                         <td class="py-2">Description</td>
                                         <td class="py-2">Brand</td>
                                         <td class="py-2">Price</td>
-                                        <td class="py-2">Quantity Sold</td>
-                                        <td class="rounded-tr-md">Total Sales</td>
+                                        <td class="py-2">Quantity</td>
+                                        <td class="py-2">Discount</td>
+                                        <td class="rounded-tr-md">Total</td>
                                     </thead>
-                                <?php if($topSelling){ $counter = 0; ?>
-                                    <?php foreach($topSelling as $topSellingProducts): $counter += 1;?>
+                                <?php if($saleHistory){ $counter = 0; ?>
+                                    <?php foreach($saleHistory as $salesHistory): $counter += 1;?>
                                         <tr>
                                             <td class="py-2 pl-2"><?= $counter ?></td>
-                                            <td><?= $topSellingProducts['product_code'];?></td>
-                                            <td><?= $topSellingProducts['product_name'];?></td>
-                                            <td><?= $topSellingProducts['product_brand'];?></td>
-                                            <td><?= $topSellingProducts['price'];?></td>
-                                            <td><?= $topSellingProducts['total_sold'];?></td>
-                                            <td><?= $topSellingProducts['total_sale'];?></td>
+                                            <td><?= $salesHistory['transaction_id'];?></td>
+                                            <td><?= $salesHistory['product_code'];?></td>
+                                            <td><?= $salesHistory['barcode'];?></td>
+                                            <td><?= $salesHistory['product_name'];?></td>
+                                            <td><?= $salesHistory['product_brand'];?></td>
+                                            <td><?= $salesHistory['price'];?></td>
+                                            <td><?= $salesHistory['quantity_bought'];?></td>
+                                            <td><?= $salesHistory['discount'];?></td>
+                                            <td><?= $salesHistory['total_price'];?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php } ?>
                         </table>
 
-                        <?php if(!$topSelling) {?>
-                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO TRANSACTION YET!</p></div>
+                        <?php if(!$saleHistory) {?>
+                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO PRODUCT!</p></div>
                         <?php } ?>
-                    </div>
-
-                    <div class="justify-self-start w-2/5 bg-[#f0faff] px-5 rounded-bl-lg rounded-br-lg overflow-auto max-h-106">
-                        <div id="piechart" style="width: 600px; height: 600px;"></div>
                     </div>
                 </div>
             </div>
