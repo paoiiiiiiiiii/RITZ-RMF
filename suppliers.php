@@ -56,7 +56,7 @@ $time = date("h:i:sa");
                                         <td class="py-2">Contact Person</td>
                                         <td class="py-2">Contact No.</td>
                                         <td class="py-2">Email</td>
-                                        <td class="rounded-tr-md">Select</td>
+                                        <td class="rounded-tr-md"></td>
                                     </thead>
                                 <?php if($supplier){ ?>
                                     <?php foreach($supplier as $suppliers): ?>
@@ -67,7 +67,7 @@ $time = date("h:i:sa");
                                             <td><?= $suppliers['contact_person'];?></td>
                                             <td><?= $suppliers['contact_no'];?></td>
                                             <td><?= $suppliers['email'];?></td>
-                                            <td><a href="suppliers.php?supplierID=<?= $suppliers['supplier_id'];?>"><img src="static/icons/cancel.png" width="23" height="23"></a></td>
+                                            <td><a href="suppliers.php?supplierID=<?= $suppliers['supplier_id'];?>"><button class="ml-2 rounded-lg bg-[#1bcb00] text-white hover:bg-[#159d00] p-1 text-sm">Select</button></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php } ?>

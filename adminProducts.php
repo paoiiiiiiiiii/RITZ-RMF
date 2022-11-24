@@ -56,7 +56,7 @@ $time = date("h:i:sa");
                                         <td class="py-2">Brand</td>
                                         <td class="py-2">Price</td>
                                         <td class="py-2">Quantity</td>
-                                        <td class="rounded-tr-md">Select</td>
+                                        <td class="rounded-tr-md"></td>
                                     </thead>
                                 <?php if($products){ ?>
                                     <?php foreach($products as $product): ?>
@@ -68,7 +68,7 @@ $time = date("h:i:sa");
                                             <td><?= $product['product_brand'];?></td>
                                             <td><?= $product['price'];?></td>
                                             <td><?= $product['quantity'];?></td>
-                                            <td><a href="adminProducts.php?productID=<?= $product['product_id'];?>"><img src="static/icons/cancel.png" width="23" height="23"></a></td>
+                                            <td><a href="adminProducts.php?productID=<?= $product['product_id'];?>"><button class="ml-2 rounded-lg bg-[#1bcb00] text-white hover:bg-[#159d00] p-1 text-sm">Select</button></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php } ?>

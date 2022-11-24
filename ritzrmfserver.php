@@ -105,11 +105,41 @@ Class Hardware {
 						$sql->execute();
 
 						header ('location:login.php');
+						
 					} else {
 						echo("The two passwords do not match!");
 					}
 				}
 			}
+		}
+	}
+
+	public function verification(){
+		if (isset($_POST['verify_user'])) {
+			$otp = $_SESSION['otp'];
+			$email = $_SESSION['mail'];
+			$otp_code = $_POST['otp_code'];
+		
+			if($otp != $otp_code){
+				?>
+			   <script>
+				   alert("Invalid OTP code");
+			   </script>
+			   <?php
+			}else{
+				$connection = $this->openConnection();
+				$sql = $connection->prepare("UPDATE user SET verify = '1' WHERE email = '$email'");
+				$sql->execute();
+
+				unset($_SESSION['otp']);
+				?>
+				<script>
+					alert("Verfiy account done, you may sign in now");
+				</script>
+				<?php
+				header('location:login.php');
+			}
+		
 		}
 	}
 
@@ -730,6 +760,34 @@ Class Hardware {
 		return $monthlySales-$monthlyCancelledSales;
 	}
 
+	public function getYearlySales(){
+		$year = date('Y');
+
+		$connection = $this->openConnection();
+		$query = "SELECT date,amount FROM transaction_num WHERE EXTRACT(YEAR FROM date) = '$year' AND transacState = 'completed';";
+		$sql = $connection->prepare($query);
+		$sql->execute();
+		$sales = $sql->fetchAll();
+
+		$query = "SELECT * FROM cancelled_order WHERE EXTRACT(YEAR FROM date) = '$year';";
+		$sql = $connection->prepare($query);
+		$sql->execute();
+		$cancelledSales = $sql->fetchAll();
+
+		$yearlySales = 0;
+		$yearlyCancelledSales = 0;
+
+		foreach ($sales as $monthlySale){
+			$yearlySales += $monthlySale['amount'];
+		}
+
+		foreach ($cancelledSales as $monthlyCancelledSale){
+			$yearlyCancelledSales += $monthlyCancelledSale['total_cancelled'];
+		}
+
+		return $yearlySales-$yearlyCancelledSales;
+	}
+
 	public function getProductLine(){
 		$connection = $this->openConnection();
 		$sql = $connection->prepare("SELECT * FROM inventory;");
@@ -916,7 +974,7 @@ Class Hardware {
 		if ($_SESSION['authentication']) {
 			if ($_SESSION['role'] == "admin"){
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC LIMIT 5; ");
+				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.*, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE transaction_num.transacState = 'completed' GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC LIMIT 5;");
 				$sql->execute();
 				$topSelling = $sql->fetchAll();
 
@@ -932,7 +990,7 @@ Class Hardware {
 		if ($_SESSION['authentication']) {
 			if ($_SESSION['role'] == "admin"){
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC; ");
+				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.*, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE transaction_num.transacState = 'completed' GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC;");
 				$sql->execute();
 				$topSelling = $sql->fetchAll();
 
