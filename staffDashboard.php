@@ -19,8 +19,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         
         <link rel="stylesheet" type="text/css"
                 href="main.css">
@@ -57,7 +58,7 @@ $time = date("h:i:sa");
                                 <td class="py-2">Product Desc</td>
                                 <td class="py-2">Price</td>
                                 <td class="py-2">Quantity</td>
-                                <td class="py-2">Discount</td>
+                                <!-- <td class="py-2">Discount</td> -->
                                 <td class="py-2">Total</td>
                                 <td class="rounded-tr-md"></td>
                             </thead>
@@ -68,7 +69,7 @@ $time = date("h:i:sa");
                                         <td><?= $carts['product_desc'];?></td>
                                         <td><?= $carts['price'];?></td>
                                         <td><?= $carts['quantity_bought'];?></td>
-                                        <td><?= $carts['discount'];?></td>
+                                        <!-- <td><?= $carts['discount'];?></td> -->
                                         <td><?= $carts['total_price'];?></td>
                                         <td><a href="staffDashboard.php?deleteId=<?= $carts['trans_id']?>"><img src="static/icons/cancel.png" width="25" height="25"><a></td>
                                     </tr>
@@ -111,9 +112,9 @@ $time = date("h:i:sa");
                             <div class="p-2">
                                 <form action="staffDashboard.php" method="post">
                                     <p class="text-[#2986CC] text-sm mb-1">Enter Money: </p>
-                                    <input type="number" name="money" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent mb-2" required>
+                                    <input type="number" name="money" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent mb-2" required>
                                     <p class="text-[#2986CC] text-sm mb-1">Enter Discount: </p>
-                                    <input type="number" name="discount" value="0" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent">
+                                    <input type="number" name="discount" value="0" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent">
                                     <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="settlePayment">Settle Payment</button>
                                 </form>
                             </div>

@@ -438,7 +438,7 @@ Class Hardware {
 
 			if (isset($_POST['addCart'])){
 				$quantity = $_POST['quantity'];
-				$discount = $_POST['discount'];
+				//$discount = $_POST['discount'];
 				$product_id = $_POST['addProd'];
 				$connection = $this->openConnection();
 				$sql = $connection->prepare("SELECT * FROM inventory WHERE product_id = '$product_id'");
@@ -453,8 +453,8 @@ Class Hardware {
 					$_SESSION['total_price'] += $total_price;
 					$connection = $this->openConnection();
 					$sql = $connection->prepare("
-						INSERT INTO transaction(transaction_id, product_id, quantity_bought, discount, total_price)
-						VALUES ('$transac_num', '$product_id', '$quantity', '$discount', '$total_price')");		
+						INSERT INTO transaction(transaction_id, product_id, quantity_bought, discount_item, total_price)
+						VALUES ('$transac_num', '$product_id', '$quantity', '0', '$total_price')");		
 					$sql->execute();
 					echo ("Succesfully added to cart!");
 					header('location:browseProducts.php');
@@ -721,6 +721,8 @@ Class Hardware {
 					$sql = $connection->prepare("UPDATE inventory SET quantity = '$quantityInventory' WHERE product_id = '$product_id'");
 					$sql->execute();
 			
+					header('location:history.php');
+				} else {
 					header('location:history.php');
 				}
 
@@ -1072,186 +1074,32 @@ Class Hardware {
 		}
 	}
 
-	public function setUserProfile(){
+	public function transactions(){
 		if ($_SESSION['authentication']) {
-			//active user id
-			$activeUser = $_SESSION['activeID'];
-
-			if (isset($_POST['set_user_profile'])) {
+			if ($_SESSION['role'] == "admin"){
 				$connection = $this->openConnection();
-				//get all the fields in html
-				$firstname = $_POST['fname'];
-				$lastname = $_POST['lname'];
-				$displayedname = $_POST['dname'];
-				$gender = $_POST['gender'];
-				$genre = $_POST['genre'];
-				$desc = $_POST['description'];
-				//UPDATE USER PROFILE ADD GENDER GENRE ETC
-				$sql = $connection->prepare("UPDATE userprofile SET displayed_name = '$displayedname', gender = '$gender', genre = '$genre', description = '$desc' WHERE id_user = '$activeUser'");
+				$sql = $connection->prepare("SELECT transaction_num.*, CONCAT(user.fname,' ', user.lname) AS cashier_name FROM transaction_num INNER JOIN user ON transaction_num.cashier_id = user.user_id WHERE transacState = 'completed' ORDER BY transaction_id DESC; ");
 				$sql->execute();
+				$transactionRecords = $sql->fetchAll();
 
-				//UPDATE USER LNAME FNAME SA USER TABLE
-				$sql = $connection->prepare("UPDATE user SET fname='$firstname', lname='$lastname' WHERE id = '$activeUser'");
-				$sql->execute();
-				echo("PROFILE UPDATED!");
-			}
-			//details ni user fname lname
-			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT * FROM user WHERE id = '$activeUser'");
-			$sql->execute();
-			$user = $sql->fetch();
-			//profile ni user
-			$sql = $connection->prepare("SELECT * FROM userprofile WHERE id_user = '$activeUser'");
-			$sql->execute();
-			$userprofile = $sql->fetch();
+				if (isset($_POST['searchProduct'])){
+					$searchTag = $_POST['searchTag'];
 
-			return $userinfo = array($user, $userprofile);
-		} else {
-			header ('location:login.php');
-		}
-	}
+					$connection = $this->openConnection();
+					$sql = $connection->prepare("SELECT transaction_num.*, CONCAT(user.fname,' ', user.lname) AS cashier_name FROM transaction_num INNER JOIN user ON transaction_num.cashier_id = user.user_id WHERE transacState = 'completed' AND transaction_id = '$searchTag' ORDER BY transaction_id DESC; ");
+					$sql->execute();
+					$transactionRecords = $sql->fetchAll();
 
-	public function addArtwork(){
-		if ($_SESSION['authentication']) {
-			$activeUser = $_SESSION['activeID'];
-			$statusMsg = '';
-
-			//file path
-			$targetDir = "artworks/";
-
-
-			if(isset($_POST['add_artwork'])){
-				//fields from html
-				$aTitle = $_POST['art_title'];
-				$aPoem = $_POST['art_poem'];
-				$aMaterials = $_POST['art_materials'];
-				$aGenre = $_POST['art_genre'];
-				$aDate = date("Y/m/d");
-
-				//get file from html
-				$fileName = basename($_FILES["art_file"]["name"]);
-
-				// Check if meron parehas na name
-				$connection = $this->openConnection();
-			    $sql = $connection->prepare("SELECT * FROM artworks WHERE art_file = '$fileName'");
-				$sql->execute();
-				$artwork = $sql->fetchAll();
-				$artworkCount = $sql->rowCount();
-				if ($artworkCount > 0) {
-					$artworkCount += 1;
-					$fileName = $artworkCount.$fileName;
+					return $transactionRecords;
+				} else {
+					return $transactionRecords;
 				}
-
-				//set file path and directory
-				$targetFilePath = $targetDir.$fileName;
-				$fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
-				//accepted file formats
-				$allowTypes = array('jpg','png','jpeg','gif','pdf');
-
-				if(in_array($fileType, $allowTypes)){
-			        // Upload file to server
-			        if(move_uploaded_file($_FILES["art_file"]["tmp_name"], $targetFilePath)){
-			            // Insert image file and details into database
-			            $connection = $this->openConnection();
-			            $sql = $connection->prepare("INSERT INTO artworks(artist_id, art_file, art_title, art_poem, art_materials, art_genre, date_uploaded) VALUES ('$activeUser', '$fileName', '$aTitle', '$aPoem', '$aMaterials', '$aGenre', '$aDate')");
-						$sql->execute();
-
-			            if($sql){
-			                $statusMsg = "The artwork has been uploaded successfully.";
-			            } else {
-			                $statusMsg = "File upload failed, please try again.";
-			            } 
-			        } else {
-			            $statusMsg = "Sorry, there was an error uploading your file.";
-			        }
-			    } else {
-			        $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
-			    }
-			    //add if para sa checking ng same filename ng arts
-			}
-			// Display status message
-			echo $statusMsg;
-		} else {
-			header ('location:login.php');
-		}
-	}
-
-	//views the artwork of all the users para sa newsfeed/home//PANG LAHATAN
-	public function viewArtwork(){
-		if ($_SESSION['authentication']) {
-			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT *, userprofile.displayed_name FROM artworks INNER JOIN userprofile ON artworks.artist_id=userprofile.id_user");
-			#$sql = $connection->prepare("SELECT * FROM artworks");
-			$sql->execute();
-			#$artworksQuery = $sql->fetchAll();
-
-			if($sql->rowCount() > 0){
-				$artworksQuery = $sql->fetchAll();
-				return $artworksQuery;
 			}
 
 		} else {
 			header ('location:login.php');
 		}
 	}
-
-	//views the artwork of the active user in viewprofile//PANG ACTIVE USER
-	public function viewUserArtworks(){
-		if ($_SESSION['authentication']) {
-			$activeUser = $_SESSION['activeID'];
-			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT * FROM artworks WHERE artist_id = '$activeUser'");
-			$sql->execute();
-
-			if($sql->rowCount() > 0){
-				$artworksQuery = $sql->fetchAll();
-				return $artworksQuery;
-			}
-
-		} else {
-			header ('location:login.php');
-		}	
-	}
-
-	//fetches another artist's userinfo, userprofile
-	public function viewArtistProfile(){
-		if ($_SESSION['authentication']) {
-			$artistID = $_GET['artistID'];
-			$connection = $this->openConnection();
-			//userinfo sa user table
-			$sql = $connection->prepare("SELECT * FROM user WHERE id = '$artistID'");
-			$sql->execute();
-			$userinfo = $sql->fetch();
-			//userprofile
-			$sql = $connection->prepare("SELECT * FROM userprofile WHERE id_user = '$artistID'");
-			$sql->execute();
-			$userprofile = $sql->fetch();
-
-			return $user = array($userinfo, $userprofile);	
-		} else {
-			header ('location:login.php');
-		}	
-	}
-
-	//fetches another artist's artwork when clicked on the newsfeed//PANG IBANG ARTIST NA ARTWORKS
-	public function viewArtistArtwork(){
-		if ($_SESSION['authentication']) {
-			$artistID = $_GET['artistID'];
-			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT * FROM artworks WHERE artist_id = '$artistID'");
-			$sql->execute();
-
-			if($sql->rowCount() > 0){
-				$artworksQuery = $sql->fetchAll();
-				return $artworksQuery;
-			}
-
-		} else {
-			header ('location:login.php');
-		}	
-	}
-	
 
 }
 ?>

@@ -15,8 +15,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">

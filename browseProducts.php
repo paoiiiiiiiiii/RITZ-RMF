@@ -17,8 +17,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -106,8 +107,8 @@ $time = date("h:i:sa");
                                     <div class="input-group">
                                         <label class="text-[#2986CC] text-sm"><b>Quantity: </b></label>
                                         <input type="number" name="quantity" required min="1" max="<?= $productAdd['quantity'];?>" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1">
-                                        <label class="text-[#2986CC] text-sm"><b>Discount: </b></label>
-                                        <input type="number" name="discount" value="0" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 mt-4">
+                                        <!-- <label class="text-[#2986CC] text-sm"><b>Discount: </b></label>
+                                        <input type="number" name="discount" value="0" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 mt-4"> -->
                                         <input type="number" name="addProd" value="<?= $productAdd['product_id'];?>" hidden ></input>
                                         <?php if ($session) { ?>
                                             <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="addCart">

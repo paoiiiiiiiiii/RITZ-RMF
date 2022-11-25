@@ -16,8 +16,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -73,8 +74,12 @@ $time = date("h:i:sa");
                                         <td><a href="history.php?transId=<?= $product['trans_id'];?>"><img src="static/icons/cancel.png" width="25" height="25"></a></td>
                                     </tr>
                                 <?php endforeach; ?>
-                            <?php } else { echo("THERE ARE NO TRANSACTIONS YET!");}?>
+                            <?php } ?>
                         </table>
+
+                        <?php if(!$history) {?>
+                            <div class="ml-[20rem] mt-[10rem] text-lg text-[#67b0e7]"><p>NO ORDERS YET!</p></div> 
+                        <?php } ?>
                     </div>
 
                     <div class="w-1/5 bg-[#eaf8ff] p-5 rounded-br-lg flex-initial">
@@ -109,9 +114,11 @@ $time = date("h:i:sa");
                                     <label class="text-[#2986CC] text-sm"><b>Quantity:</b></label>
                                     <input type="number" name="quantityCancelled" required value="<?= $cancelHistory['quantity_bought'];?>" min="1" max="<?= $cancelHistory['quantity_bought'];?>" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-2 mt-2"></input>
                                     <input type="number" name="cancelledTrans" value="<?= $cancelHistory['trans_id'];?>" hidden></input>
-                                    <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="cancel_order">
-                                        Cancel Order
-                                    </button>
+                                    <?php if ($cancelHistory) { ?>
+                                        <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="cancel_order">
+                                            Cancel Order
+                                        </button>
+                                    <?php } ?>
                                 </form>
                             </div>
                         </div>

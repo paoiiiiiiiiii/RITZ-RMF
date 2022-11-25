@@ -14,8 +14,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -34,7 +35,8 @@ $time = date("h:i:sa");
                         </div>
                     </div>
                     <div class="justify-self-stretch mx-1 w-3/5 px-2 flex items-center">
-                        <p class="text-[2rem] text-[#2986CC] font-bold ml-4">SALES HISTORY</p>
+                        <a href="saleHistory.php"><p class="text-xs ml-3 text-[#2986CC] font-bold outline outline-offset-1 outline-[#2986CC] rounded-md bg-[#67b0e7] p-2 text-white">SALES HISTORY</p></a>
+                        <a href="transactions.php" ><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">TRANSACTION HISTORY</p></a>
                     </div>
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
@@ -80,7 +82,7 @@ $time = date("h:i:sa");
                                         <td class="py-2">Brand</td>
                                         <td class="py-2">Price</td>
                                         <td class="py-2">Quantity</td>
-                                        <td class="py-2">Discount</td>
+                                        <!-- <td class="py-2">Discount</td> -->
                                         <td class="rounded-tr-md">Total</td>
                                     </thead>
                                 <?php if($saleHistory){ $counter = 0; ?>
@@ -94,7 +96,7 @@ $time = date("h:i:sa");
                                             <td><?= $salesHistory['product_brand'];?></td>
                                             <td><?= $salesHistory['price'];?></td>
                                             <td><?= $salesHistory['quantity_bought'];?></td>
-                                            <td><?= $salesHistory['discount'];?></td>
+                                            <!-- <td><?= $salesHistory['discount'];?></td> -->
                                             <td><?= $salesHistory['total_price'];?></td>
                                         </tr>
                                     <?php endforeach; ?>

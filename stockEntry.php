@@ -17,8 +17,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -102,7 +103,7 @@ $time = date("h:i:sa");
 
                         <div>
                             <form method="post" action="stockEntry.php">
-                            <button class="w-24 text-sm text-white rounded-lg bg-[#67b0e7] p-1 text-white hover:bg-[#2986CC]" type="submit" name="save">Save</button>
+                            <button class="w-24 rounded-lg bg-[#1bcb00] text-white hover:bg-[#159d00] p-1 text-sm" type="submit" name="save">Save</button>
                             </form>
                         </div>
                     </div>

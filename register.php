@@ -13,8 +13,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -25,7 +26,7 @@ $time = date("h:i:sa");
                 <div class="w-full flex h-[40rem]">
                     <div class="w-full bg-[#f0faff] rounded-md flex justify-center grid grid-cols-2">
                         <div class="flex justify-center items-center">
-                            <img src="static/images/logo.png" width="450" height="450">
+                            <img src="static/images/logo2.png" width="700" height="700">
                         </div>
                         <div class="flex justify-center items-center py-5">
                             <div class="bg-[#ffff] h-full w-4/5 mx-8 rounded-lg px-10 py-5 drop-shadow-lg">

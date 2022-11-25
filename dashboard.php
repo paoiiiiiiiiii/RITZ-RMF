@@ -19,9 +19,9 @@ $criticalItems = $rmf->getCriticalItems();
 <html>
 <head>
     <title>
-        PART PROJECT
+            RITZ-RMF HARDWARE
     </title>
-     
+    <link rel="icon" type="image/png" href="static/images/logo.png">
     <link rel="stylesheet" type="text/css"
             href="main.css">
     <link href="styles.css" rel="stylesheet">
@@ -64,7 +64,7 @@ $criticalItems = $rmf->getCriticalItems();
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
-                            <img src="static/images/logo.png" height="80" width="80">
+                            <img src="static/images/logo.png" height="980" width="80">
                         </div>
                         <div class="px-2">
                             <p class="text-lg font-bold"><?= $users['fname'];?> <?= $users['lname'];?></p>
@@ -84,7 +84,7 @@ $criticalItems = $rmf->getCriticalItems();
                     <div class="justify-self-start w-full bg-[#f0faff] rounded-b-lg px-5 max-h-106 flex grid grid-rows-2">
                         <div class="flex w-full row-span-2 pt-4">
                             <div class="flex-1 bg-[#1bcb00] text-white rounded-md h-[8rem] mx-3 my-5 p-2 grid grid-cols-3"><div class="col-span-1 flex items-center justify-center"><img src="static/icons/peso.png" width="90" height="90"></div>
-                                <div class="col-span-2 text-lg pr-5 pt-1 pl-2">
+                                <div class="col-span-2 text-lg pr-3 pt-1 pl-2">
                                     <ul class="text-3xl text-left"><b><?= $sales ?></b></ul>
                                     <ul class="text-lg text-left"><b>MONTHLY SALES</b></ul> 
                                     <ul class="text-xs text-left">Total monthly sales recorded on database</ul> 

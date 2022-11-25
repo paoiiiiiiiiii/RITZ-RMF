@@ -2,7 +2,7 @@
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
-$stockInRecord = $rmf->stockInRecord();
+$transactionHistory = $rmf->transactions();
 
 date_default_timezone_set('Asia/Manila');
 $date = date("Y-m-d");
@@ -35,12 +35,8 @@ $time = date("h:i:sa");
                         </div>
                     </div>
                     <div class="justify-self-stretch mx-1 w-3/5 px-2 flex items-center">
-                        <a href="topSelling.php" ><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">TOP SELLING</p></a>
-                        <a href="soldItems.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">SOLD ITEMS</p></a>
-                        <a href="criticalStocks.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer ">CRITICAL STOCKS</p></a>
-                        <a href="inventoryList.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">INVENTORY LIST</p></a>
-                        <a href="cancelledItems.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">CANCELLED ITEMS</p></a>
-                        <a href="stockInRecord.php"><p class="text-xs ml-3 text-[#2986CC] font-bold outline outline-offset-1 outline-[#2986CC] rounded-md bg-[#67b0e7] p-2 text-white ">STOCK IN HISTORY</p></a>
+                        <a href="salesHistory.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer ">SALES HISTORY</p></a>
+                        <a href="transactions.php" ><p class="text-xs ml-3 text-[#2986CC] font-bold outline outline-offset-1 outline-[#2986CC] rounded-md bg-[#67b0e7] p-2 text-white ">TRANSACTION HISTORY</p></a>
                     </div>
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
@@ -62,13 +58,13 @@ $time = date("h:i:sa");
                                 <button type="submit" name="betweenDates" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Filter</button>
                             </form>
   
-                            <form method="post" action="stockInRecord.php" class="w-1/5">
-                                <input type="text" name="searchTag" placeholder="Search Barcode" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
+                            <form method="post" action="transactions.php" class="w-1/5">
+                                <input type="text" name="searchTag" placeholder="Search Invoice" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
                                 <button type="submit" name="searchProduct" class="ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Search</button>
                             </form>
 
                             <div class="w-1/5">
-                                <a href="stockInRecord.php"><button class="w-24 ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">All</button></a>
+                                <a href="transactions.php"><button class="w-24 ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">All</button></a>
                             </div>
                             <div class="w-1/5">
                                 <a href=""><button class=" w-24 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Print</button></a>
@@ -78,35 +74,33 @@ $time = date("h:i:sa");
 
                         <table class="justify-self-stretch w-full m-auto mt-3">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
-                                        <td class="pl-2 rounded-tl-md py-2">#</td>
-                                        <td class="py-2">Trans No.</td>
-                                        <td class="py-2">PCode</td>
-                                        <td class="py-2">Barcode</td>
-                                        <td class="py-2">Description</td>
-                                        <td class="py-2">Brand</td>
-                                        <td class="py-2">Quantity</td>
-                                        <td class="py-2">Stock In By</td>
-                                        <td class="rounded-tr-md">Stock In Date</td>
+                                        <td class="pl-2 rounded-tl-md py-2">Invoice No.</td>
+                                        <td class="py-2">Date</td>
+                                        <td class="py-2">Customer</td>
+                                        <td class="py-2">Amount (Discounted)</td>
+                                        <td class="py-2">Money</td>
+                                        <td class="py-2">Discount</td>
+                                        <td class="py-2">Change</td>
+                                        <td class="rounded-tr-md">Cashier Name</td>
                                     </thead>
-                                <?php if($stockInRecord){ $counter = 0; ?>
-                                    <?php foreach($stockInRecord as $stockInRecords): $counter += 1;?>
+                                <?php if($transactionHistory){ $counter = 0; ?>
+                                    <?php foreach($transactionHistory as $transacHistory): $counter += 1;?>
                                         <tr>
-                                            <td class="py-2 pl-2"><?= $counter ?></td>
-                                            <td><?= $stockInRecords['stockin_id'];?></td>
-                                            <td><?= $stockInRecords['product_code'];?></td>
-                                            <td><?= $stockInRecords['barcode'];?></td>
-                                            <td><?= $stockInRecords['product_name'];?></td>
-                                            <td><?= $stockInRecords['product_brand'];?></td>
-                                            <td><?= $stockInRecords['quantity'];?></td>
-                                            <td><?= $stockInRecords['stock_by'];?></td>
-                                            <td><?= $stockInRecords['stock_date'];?></td>
+                                            <td class="py-2"><?= $transacHistory['transaction_id'];?></td>
+                                            <td><?= $transacHistory['date'];?></td>
+                                            <td><?= $transacHistory['soldTo'];?></td>
+                                            <td><?= $transacHistory['amount'];?></td>
+                                            <td><?= $transacHistory['moneyOfCustomer'];?></td>
+                                            <td><?= $transacHistory['discount'];?></td>
+                                            <td><?= $transacHistory['changeOfCustomer'];?></td>
+                                            <td><?= $transacHistory['cashier_name'];?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php } ?>
                         </table>
 
-                        <?php if(!$stockInRecord) {?>
-                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO PRODUCT!</p></div>
+                        <?php if(!$transactionHistory) {?>
+                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO TRANSACTIONS!</p></div>
                         <?php } ?>
                     </div>
                 </div>

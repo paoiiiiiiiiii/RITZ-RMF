@@ -15,8 +15,9 @@ $time = date("h:i:sa");
 <html>
     <head>
         <title>
-            PART PROJECT
+            RITZ-RMF HARDWARE
         </title>
+        <link rel="icon" type="image/png" href="static/images/logo.png">
         <link rel="stylesheet" type="text/css"
             href="main.css">
         <link href="styles.css" rel="stylesheet">
@@ -101,7 +102,7 @@ $time = date("h:i:sa");
                                 </ul>
                                 <ul>
                                 <label class="text-[#2986CC] text-sm"><b>Barcode: </b></label>
-                                <input type="text" name="barcode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2 mb-1" value = "<?= $productDetails['barcode'];?>">
+                                <input type="number" name="barcode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2 mb-1" value = "<?= $productDetails['barcode'];?>">
                                 </ul>
                                 <ul>
                                 <label class="text-[#2986CC] text-sm"><b>PName: </b></label>
@@ -113,7 +114,7 @@ $time = date("h:i:sa");
                                 </ul>
                                 <ul>
                                 <label class="text-[#2986CC] text-sm"><b>Price:</b></label>
-                                <input type="number" name="price" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2 mb-1" value = "<?= $productDetails['price'];?>">
+                                <input type="number" step="0.01" name="price" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2 mb-1" value = "<?= $productDetails['price'];?>">
                                 </ul>
                                 <ul>
                                 <label class="text-[#2986CC] text-sm"><b>Quantity: </b></label>
