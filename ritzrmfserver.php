@@ -146,7 +146,7 @@ Class Hardware {
 	public function changePassword(){
 		if ($_SESSION['authentication']) {
 			if ($_SESSION['role'] == "admin"){
-				$message="";
+				unset($_SESSION['message']);
 				if (isset($_POST['save'])){
 					$email = $_POST['email'];
 					$oldPassword = md5($_POST['oldPassword']);
@@ -165,16 +165,16 @@ Class Hardware {
 							$connection = $this->openConnection();
 							$sql = $connection->prepare("UPDATE user SET password='$newPassword' WHERE user_id = '$activeUser'");
 							$sql->execute();
-							$message="Success!";
 
-							return $message;
+							$_SESSION['message'] = "CHANGE PASSWORD SUCCESSFUL!";
+							header('location:userSettings.php');
 						} else {
-							$message="Old Password or Email is incorrect!";
-							return $message;
+							$_SESSION['message'] = "Old Password or Email is incorrect!";
+							header('location:userSettings.php');
 						}
 					} else{
-						$message = "The two Passwords do not match!";
-						return $message;
+						$_SESSION['message'] = "Two Passwords Do Not Match!";
+						header('location:userSettings.php');
 					}
 				}
 			}
@@ -208,6 +208,16 @@ Class Hardware {
 			header ('location:login.php');
 		}
 
+	}
+
+	public function roleChecker() {
+		if ($_SESSION['authentication']){
+			if ($_SESSION['role'] != "admin"){
+				header('location:roleNotAccessible.php');
+			}
+		} else {
+			header ('location:login.php');
+		}
 	}
 
 	public function browseProducts(){
@@ -264,6 +274,7 @@ Class Hardware {
 
 	public function removeInventory(){
 		if ($_SESSION['authentication']) {
+			unset($_SESSION['message']);
 			if (isset($_GET['productID'])) {
 				$prod_id = $_GET['productID'];
 				$connection = $this->openConnection();
@@ -280,6 +291,7 @@ Class Hardware {
 				$sql = $connection->prepare("DELETE FROM inventory WHERE product_id = '$product_id'");
 				$sql->execute();
 				
+				$_SESSION['message'] = "Removed Successfully";
 				header ('location:adminProducts.php');
 			}
 
@@ -307,6 +319,7 @@ Class Hardware {
 
 				$sql->execute();
 				
+				$_SESSION['message'] = "Updated Successfully";
 				header ('location:adminProducts.php');
 			}
 
@@ -323,6 +336,7 @@ Class Hardware {
 					VALUES ('$product_name', '$product_brand', '$product_code', '$barcode','$price', '$quantity')");
 				$sql->execute();
 				
+				$_SESSION['message'] = "Added Successfully";
 				header ('location:adminProducts.php');
 			}
 
@@ -360,6 +374,7 @@ Class Hardware {
 
 	public function supplier(){
 		if ($_SESSION['authentication']) {
+			unset($_SESSION['message']);
 			if (isset($_GET['supplierID'])) {
 				$supplier_id = $_GET['supplierID'];
 				$connection = $this->openConnection();
@@ -376,6 +391,7 @@ Class Hardware {
 				$sql = $connection->prepare("DELETE FROM supplier WHERE supplier_id = '$supplier_id'");
 				$sql->execute();
 				
+				$_SESSION['message'] = "Removed Successfully!";
 				header ('location:suppliers.php');
 			}
 
@@ -400,6 +416,7 @@ Class Hardware {
 					
 				$sql->execute();
 				
+				$_SESSION['message'] = "Updated Successfully!";
 				header ('location:suppliers.php');
 			}
 
@@ -414,6 +431,7 @@ Class Hardware {
 				$sql = $connection->prepare("INSERT INTO supplier(product, address, contact_person, contact_no, email) VALUES ('$name', '$address', '$contactPerson', '$contactNum','$email')");
 				$sql->execute();
 				
+				$_SESSION['message'] = "Added Successfully!";
 				header ('location:suppliers.php');
 			}
 
@@ -426,6 +444,7 @@ Class Hardware {
 	
 	public function addCart(){
 		if ($_SESSION['authentication']) {
+			unset($_SESSION['message']);
 			if (isset($_GET['productID'])) {
 				$prod_id = $_GET['productID'];
 				$connection = $this->openConnection();
@@ -446,7 +465,8 @@ Class Hardware {
 				$productInfo = $sql->fetch();
 					
 				if($productInfo['quantity'] < $quantity){
-					echo("Provide Valid Quantity!");
+					//echo("Provide Valid Quantity!");
+					echo "<script>alert('enter valid quantity');</script>";
 				} else {
 					$transac_num = $_SESSION['transacNum'];
 					$total_price = ($quantity * $productInfo['price']) - $discount;
@@ -456,7 +476,7 @@ Class Hardware {
 						INSERT INTO transaction(transaction_id, product_id, quantity_bought, discount_item, total_price)
 						VALUES ('$transac_num', '$product_id', '$quantity', '0', '$total_price')");		
 					$sql->execute();
-					echo ("Succesfully added to cart!");
+					$_SESSION['message'] = "Successfully added to cart!";
 					header('location:browseProducts.php');
 				}
 			}
@@ -466,6 +486,10 @@ Class Hardware {
 		}
 	}
 	
+	public function message (){
+		return $_SESSION['message'];
+	}
+
 	public function newTransac(){
 		if ($_SESSION['authentication']) {
 			if(isset($_POST['newTransac'])){
@@ -639,14 +663,15 @@ Class Hardware {
 	public function showHistory(){
 		if ($_SESSION['authentication']) {
 			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' ORDER BY transaction_num.transaction_id DESC;");
+			$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND transaction_num.transacState = 'completed' ORDER BY transaction_num.transaction_id DESC;");
 			$sql->execute();
 			$productInfo = $sql->fetchAll();
 
 			if (isset($_POST['searchProduct'])){
 				$searchTag = $_POST['searchTag'];
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND barcode = '$searchTag' ORDER BY transaction_num.transaction_id DESC;");
+				$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND transaction_num.transacState = 'completed' AND barcode = '$searchTag' ORDER BY transaction_num.transaction_id DESC;");
+				//$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND barcode = '$searchTag' ORDER BY transaction_num.transaction_id DESC;");
 				$sql->execute();
 				$productInfo = $sql->fetchAll();
 
@@ -662,6 +687,7 @@ Class Hardware {
 
 	public function cancelHistory(){
 		if ($_SESSION['authentication']) {
+			unset($_SESSION['message']);
 			if (isset($_GET['transId'])){
 				$trans_id = $_GET['transId'];
 				$connection = $this->openConnection();
@@ -705,6 +731,7 @@ Class Hardware {
 				$sql = $connection->prepare("UPDATE transaction SET quantity_bought = '$quantityNew' WHERE trans_id = '$trans_id'");
 				$sql->execute();
 
+				$_SESSION['message'] = "Cancelled Successfully!";
 				if ($action == "Yes"){
 					$connection = $this->openConnection();
 					$sql = $connection->prepare("UPDATE transaction SET total_price = '$total_price' WHERE trans_id = '$trans_id'");

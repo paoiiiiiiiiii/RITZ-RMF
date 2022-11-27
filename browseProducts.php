@@ -1,6 +1,7 @@
 <?php 
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
+$message = $rmf->message();
 $products = $rmf->browseProducts();
 $users = $rmf->home();
 $productAdd = $rmf->addCart();
@@ -101,7 +102,7 @@ $time = date("h:i:sa");
                             <p class="text-sm text-[#2986CC]"><b>Quantity Available: </b><?= $productAdd['quantity'];?></p>
                         </div>
 
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[8rem] my-4">
+                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[10rem] my-4">
                             <div class="p-2">
                                 <form method="post" action="browseProducts.php">
                                     <div class="input-group">
@@ -110,11 +111,17 @@ $time = date("h:i:sa");
                                         <!-- <label class="text-[#2986CC] text-sm"><b>Discount: </b></label>
                                         <input type="number" name="discount" value="0" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 mt-4"> -->
                                         <input type="number" name="addProd" value="<?= $productAdd['product_id'];?>" hidden ></input>
-                                        <?php if ($session) { ?>
+                                        <?php if ($session && $productAdd) { ?>
                                             <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="addCart">
                                                 Add to Cart
                                             </button>
                                         <?php }?>
+                                        <?php if ($message) {?>
+                                            <div class="bg-[#1bcb00] rounded-md pl-3 h-10 py-2 my-10">
+                                                <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                            </div>
+                                        <?php } ?>
+                                        
                                         </div>
                                     </div>
                                 </form>
@@ -125,7 +132,7 @@ $time = date("h:i:sa");
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 

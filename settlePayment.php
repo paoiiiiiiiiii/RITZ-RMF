@@ -34,7 +34,7 @@ $time = date("h:i:sa");
                 <button onClick="window.print()" class="ml-10 mt-5 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Print receipt</button>
                     <form method="POST" action="settlePayment.php">
                             <button type="submit" class="ml-4 mt-5 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm"
-                                        name="confirmTransac">
+                                        name="confirmTransac" onclick="return confirm('Confirm Transaction?')">
                                 Confirm Transaction
                             </button>
                     </form>

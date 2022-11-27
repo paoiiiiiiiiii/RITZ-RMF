@@ -2,6 +2,7 @@
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
+$role = $rmf->roleChecker();
 
 date_default_timezone_set('Asia/Manila');
 $date = date("Y-m-d");
@@ -134,9 +135,9 @@ $criticalItems = $rmf->getCriticalItems();
                 
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 </body>
- 
+
 </html>

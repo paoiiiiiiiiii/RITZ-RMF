@@ -2,6 +2,7 @@
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
+$role = $rmf->roleChecker();
 $generate = $rmf->generateRefNo();
 $session = $rmf->refSessionChecker();
 $stock = $rmf->stockIn();
@@ -44,7 +45,7 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
                             <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
-                                <img src="static/icons/cart.png" width="25" height="25" style="  display: block; margin-left: 42px; margin-right: auto;"><p>Back to Dashboard</p>
+                                <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 47px; margin-right: auto;"><p>Back to Dashboard</p>
                             </button>
                         </a>
                     </div>
@@ -136,7 +137,7 @@ $time = date("h:i:sa");
                                             <td><?= $presentStockIn['stock_date'];?></td>
                                             <td><?= $presentStockIn['quantity'];?></td>
                                             <td><?= $presentStockIn['stock_by'];?></td>
-                                            <td><a href="stockEntry.php?barcode=<?= $presentStockIn['barcode'];?>"><img src="static/icons/cancel.png" width="23" height="23"></a></td>
+                                            <td><a href="stockEntry.php?barcode=<?= $presentStockIn['barcode'];?>" onclick="return confirm('Remove Transaction?')"><img src="static/icons/cancel.png" width="23" height="23"></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php } ?>
@@ -149,7 +150,7 @@ $time = date("h:i:sa");
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 

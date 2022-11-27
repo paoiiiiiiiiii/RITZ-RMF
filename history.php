@@ -3,6 +3,7 @@ require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
 // $transac = $rmf->newTransac();
+$message = $rmf->message();
 $history = $rmf->showHistory();
 $cancelHistory = $rmf->cancelHistory();
 
@@ -119,6 +120,11 @@ $time = date("h:i:sa");
                                             Cancel Order
                                         </button>
                                     <?php } ?>
+                                    <?php if ($message) {?>
+                                        <div class="bg-[#1bcb00] rounded-md pl-3 my-3 py-2">
+                                            <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                        </div>
+                                    <?php } ?>
                                 </form>
                             </div>
                         </div>
@@ -126,7 +132,7 @@ $time = date("h:i:sa");
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 

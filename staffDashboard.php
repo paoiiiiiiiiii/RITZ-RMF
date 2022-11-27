@@ -104,7 +104,7 @@ $time = date("h:i:sa");
                         
                         <div class="my-3 h-[10rem] flex-1 mb-1">
                             <a href="browseProducts.php"><button class="w-full mb-3 rounded-full bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">BROWSE PRODUCTS</button></a>
-                            <a href="staffDashboard.php?deleteAll='1'"><button class="w-full mb-3 rounded-full bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">CLEAR CART</button><a>
+                            <a href="staffDashboard.php?deleteAll='1'" onclick="return confirm('Are you sure you want to clear cart?')"><button class="w-full mb-3 rounded-full bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">CLEAR CART</button><a>
                             <a href="history.php"><button class="w-full mb-3 rounded-full bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">HISTORY</button><a>
                         </div>
 
@@ -124,7 +124,7 @@ $time = date("h:i:sa");
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
  

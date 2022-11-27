@@ -1,6 +1,8 @@
 <?php 
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
+$role = $rmf->roleChecker();
+$message = $rmf->message();
 $users = $rmf->home();
 $changePass= $rmf->changePassword();
 
@@ -40,14 +42,14 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
                             <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
-                                <img src="static/icons/cart.png" width="25" height="25" style="  display: block; margin-left: 42px; margin-right: auto;"><p>Back to Dashboard</p>
+                                <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 47px; margin-right: auto;"><p>Back to Dashboard</p>
                             </button>
                         </a>
                     </div>
                 </div>
 
                 <div class="w-full flex h-[32rem]">
-                    <div class="w-full bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106 flex justify-center">
+                    <div class="w-full bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106 flex justify-center items-center grid grid-rows-2">
                         <div class="flex h-64 pt-10 mt-10">
                             <form class="grid grid-rows-4" method="post" action="userSettings.php">
                                 <ul>
@@ -73,15 +75,26 @@ $time = date("h:i:sa");
                                 <ul class="flex justify-center">
                                     <button type="submit" name="save" class="text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC] w-32">Save</button>
                                 </ul>
-                                <ul><?= $changePass ?></ul>
                             </form>
-                            
                         </div>
+
+                        <?php if ($message) { ?>
+                            <?php if ($message == "CHANGE PASSWORD SUCCESSFUL!") {?>
+                                <div class="bg-[#1bcb00] rounded-md pl-3 h-8 py-2 w-full flex justify-center">
+                                    <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                </div>
+                            <?php } else { ?>
+                                <div class="bg-[#ff6363] rounded-md pl-3 h-8 py-2 w-full flex justify-center">
+                                    <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
+
                     </div>
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 

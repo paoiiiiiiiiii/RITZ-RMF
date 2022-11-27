@@ -2,7 +2,8 @@
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
-
+$role = $rmf->roleChecker();
+$message = $rmf->message();
 $supplier = $rmf->browseSuppliers();
 $supplierDetails = $rmf->supplier();
 
@@ -42,7 +43,7 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch w-1/5 flex">
                         <a href="dashboard.php">
                             <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
-                                <img src="static/icons/cart.png" width="25" height="25" style="  display: block; margin-left: 42px; margin-right: auto;"><p>Back to Dashboard</p>
+                                <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 47px; margin-right: auto;"><p>Back to Dashboard</p>
                             </button>
                         </a>
                     </div>
@@ -123,6 +124,11 @@ $time = date("h:i:sa");
                                     <?php } else {?>
                                         <button name="addSupplier" type="submit" class="ml-1 rounded-lg text-white bg-[#cdcdcd] p-2 text-sm" disabled>Add</button>
                                     <?php }?>
+                                    <?php if ($message) {?>
+                                        <div class="bg-[#1bcb00] rounded-md pl-3 my-3 py-2">
+                                            <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </form>
                         </div>
@@ -133,7 +139,7 @@ $time = date("h:i:sa");
                 </div>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
-            <button class="ml-20 text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'"><img src="static/icons/logout.png" width="18" height="18"></a></button>
+            <button class="ml-20 text-sm text-white mb-6 rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]"><a href="login.php?logout='1'" onclick="return confirm('Are you sure you want to logout?')"><img src="static/icons/logout.png" width="18" height="18"></a></button>
         </div>
     </body>
 
