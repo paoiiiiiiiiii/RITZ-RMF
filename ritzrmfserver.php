@@ -1,4 +1,5 @@
 <?php 
+require_once('mailer.php');
 session_start();
 Class Hardware {
 	
@@ -30,6 +31,7 @@ Class Hardware {
 
 	public function loginUser(){
 		$user = "";
+		unset($_SESSION['message']);
 		if (isset($_POST['login_user'])) {
 			$email = $_POST['email'];
 			$password = md5($_POST['password']);
@@ -39,7 +41,7 @@ Class Hardware {
 
 			} else {
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("SELECT * FROM user WHERE email = '$email' AND password = '$password'");
+				$sql = $connection->prepare("SELECT * FROM user WHERE email = '$email' AND password = '$password' AND verify = '1'");
 				$sql->execute();
 				$user = $sql->fetch();
 				$userCount = $sql->rowCount();
@@ -59,8 +61,9 @@ Class Hardware {
 					}
 					
 				} else {
-					echo("INVALID CREDENTIALS");
+					$_SESSION['message'] = "INVALID CREDENTIALS";
 					$user = null;
+					header('location:login.php');
 				}
 			}
 		}
@@ -77,6 +80,7 @@ Class Hardware {
 	public function registerUser(){
 		if (isset($_POST['register_user'])) {
 			$email = $_POST['email'];
+			$_SESSION['email'] = $email;
 			$password1 = $_POST['password_1'];
 			$password2 = $_POST['password_2'];
 			$firstname = $_POST['fname'];
@@ -104,7 +108,12 @@ Class Hardware {
 							VALUES('$email', '$password', '$userRole', '$phoneNum', '$firstname', '$lastname')");
 						$sql->execute();
 
-						header ('location:login.php');
+						$otp = rand(100000,999999);
+						$_SESSION['otp'] = $otp;
+						$mailer = new Mailer();
+						$snedEmail = $mailer->sendEmail($email, $otp);
+
+						header ('location:verification.php');
 						
 					} else {
 						echo("The two passwords do not match!");
@@ -117,8 +126,8 @@ Class Hardware {
 	public function verification(){
 		if (isset($_POST['verify_user'])) {
 			$otp = $_SESSION['otp'];
-			$email = $_SESSION['mail'];
-			$otp_code = $_POST['otp_code'];
+			$email = $_SESSION['email'];
+			$otp_code = $_POST['otp'];
 		
 			if($otp != $otp_code){
 				?>
@@ -132,15 +141,16 @@ Class Hardware {
 				$sql->execute();
 
 				unset($_SESSION['otp']);
+				unset($_SESSION['email']);
 				?>
 				<script>
-					alert("Verfiy account done, you may sign in now");
+					alert("Verify account done, you may sign in now");
 				</script>
 				<?php
 				header('location:login.php');
 			}
-		
 		}
+		return $_SESSION['email'];
 	}
 
 	public function changePassword(){

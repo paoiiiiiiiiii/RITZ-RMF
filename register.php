@@ -38,12 +38,12 @@ $time = date("h:i:sa");
                                         <input type="email" name="email" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
                                     </div>
                                     <div class="input-group">
-                                        <ul><label class="text-center text-[#a8a8a8] text-md">Enter Password</label></ul>
-                                        <input type="password" name="password_1" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
+                                        <ul><label class="text-center text-[#a8a8a8] text-md">Enter Password (Min. of 8 characters)</label></ul>
+                                        <input type="password" name="password_1" minlength="8" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
                                     </div>
                                     <div class="input-group">
                                         <ul><label class="text-center text-[#a8a8a8] text-md">Confirm password</label></ul>
-                                        <input type="password" name="password_2" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
+                                        <input type="password" name="password_2" minlength="8" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
                                     </div>
                                     <div class="input-group">
                                         <ul><label class="text-center text-[#a8a8a8] text-md">First Name</label></ul>
@@ -55,7 +55,7 @@ $time = date("h:i:sa");
                                     </div>
                                     <div class="input-group">
                                         <ul><label class="text-center text-[#a8a8a8] text-md">Phone number</label></ul>
-                                        <input type="number" name="phoneNum" required class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
+                                        <input type="number" name="phoneNum" required minlength="11" maxlength="11" class="bg-[#efefef] text-sm text-[#525252] w-full mb-2 p-1 rounded-lg">
                                     </div>
                                     <div class="input-group">
                                         <ul><label class="text-center text-[#a8a8a8] text-md">User Role</label></ul>
