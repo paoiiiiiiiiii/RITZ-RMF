@@ -62,7 +62,7 @@ $time = date("h:i:sa");
                                     <?php foreach($cancelledItem as $cancelledItems): $counter += 1;?>
                                         <tr>
                                             <td class="py-2 pl-2"><?= $counter ?></td>
-                                            <td><?= $cancelledItems['transaction_id'];?></td>
+                                            <td class="pl-3"><?= $cancelledItems['transaction_id'];?></td>
                                             <td><?= $cancelledItems['barcode'];?></td>
                                             <td><?= $cancelledItems['product_name'];?></td>
                                             <td><?= $cancelledItems['product_brand'];?></td>

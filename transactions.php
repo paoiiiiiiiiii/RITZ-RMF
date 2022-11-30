@@ -51,11 +51,11 @@ $time = date("h:i:sa");
                 <div class="w-full flex h-[32rem]">
                     <div class="justify-self-start w-full bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106">
                         <div class="mt-3 w-full flex">
-                            <form class="w-2/5">
+                            <form class="w-2/5" method='post' action='transactions.php'>
                                 <label class="text-md text-[#2986CC] mt-2">From</label>
-                                <input type="date" name="from" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md"></input>
+                                <input type="date" name="from" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md" required></input>
                                 <label class="ml-2 text-md text-[#2986CC] mt-2">To</label>
-                                <input type="date" name="to" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md"></input>
+                                <input type="date" name="to" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md" required></input>
                                 <button type="submit" name="betweenDates" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Filter</button>
                             </form>
   

@@ -48,18 +48,16 @@ Class Hardware {
 
 				if($userCount == 1){
 					echo("Successfully Logged in!");
-					$_SESSION['authentication'] = 1;
 					$_SESSION['id'] = $user['user_id'];
 					$_SESSION['role'] = $user['role'];
-					if ($_SESSION['role']=="admin"){
-						header ('location:dashboard.php');
-						// unset($_SESSION['total_price']);
-						// unset($_SESSION['moneyOfCustomer']);
-						// unset($_SESSION['transacNum']);
-					} else {
-						header ('location:staffDashboard.php');
-					}
+					$_SESSION['email'] = $email;
 					
+					$otp = rand(100000,999999);
+					$_SESSION['otp'] = $otp;
+					$mailer = new Mailer();
+					$snedEmail = $mailer->sendEmail($email, $otp);
+
+					header ('location:loginVerification.php');
 				} else {
 					$_SESSION['message'] = "INVALID CREDENTIALS";
 					$user = null;
@@ -72,12 +70,14 @@ Class Hardware {
 			unset($_SESSION['id']);
 			unset($_SESSION['role']);
 			unset($_SESSION['authentication']);
+			unset($_SESSION['email']);
 			session_destroy();
 			header("location: login.php");
 		}
 	}
 
 	public function registerUser(){
+		unset($_SESSION['message']);
 		if (isset($_POST['register_user'])) {
 			$email = $_POST['email'];
 			$_SESSION['email'] = $email;
@@ -89,7 +89,7 @@ Class Hardware {
 			$userRole= $_POST['userRole'];
 
 			$connection = $this->openConnection();
-			$sql = $connection->prepare("SELECT * FROM user WHERE email = '$email'");
+			$sql = $connection->prepare("SELECT * FROM user WHERE email = '$email' AND verify = '1' ");
 			$sql->execute();
 			$user = $sql->fetchAll();
 			$userCount = $sql->rowCount();		
@@ -108,6 +108,11 @@ Class Hardware {
 							VALUES('$email', '$password', '$userRole', '$phoneNum', '$firstname', '$lastname')");
 						$sql->execute();
 
+						$sql = $connection->prepare("SELECT * FROM user WHERE email = '$email' ORDER BY user_id DESC LIMIT 1");
+						$sql->execute();
+						$currentUser = $sql->fetch();
+						$_SESSION['currentUserID'] = $currentUser['user_id'];
+					
 						$otp = rand(100000,999999);
 						$_SESSION['otp'] = $otp;
 						$mailer = new Mailer();
@@ -116,7 +121,8 @@ Class Hardware {
 						header ('location:verification.php');
 						
 					} else {
-						echo("The two passwords do not match!");
+						$_SESSION['message'] = "The two passwords do not match!";
+						header('location:register.php');
 					}
 				}
 			}
@@ -128,6 +134,7 @@ Class Hardware {
 			$otp = $_SESSION['otp'];
 			$email = $_SESSION['email'];
 			$otp_code = $_POST['otp'];
+			$userID = $_SESSION['currentUserID'];
 		
 			if($otp != $otp_code){
 				?>
@@ -137,17 +144,48 @@ Class Hardware {
 			   <?php
 			}else{
 				$connection = $this->openConnection();
-				$sql = $connection->prepare("UPDATE user SET verify = '1' WHERE email = '$email'");
+				$sql = $connection->prepare("UPDATE user SET verify = '1' WHERE email = '$email' AND user_id = '$userID'");
 				$sql->execute();
 
 				unset($_SESSION['otp']);
 				unset($_SESSION['email']);
+				unset($_SESSION['currentUserID']);
 				?>
 				<script>
 					alert("Verify account done, you may sign in now");
 				</script>
 				<?php
 				header('location:login.php');
+			}
+		}
+		return $_SESSION['email'];
+	}
+
+	public function loginVerification() {
+		if (isset($_POST['verify_user'])) {
+			$user_id = $_SESSION['user_id'];
+			$otp = $_SESSION['otp'];
+			$email = $_SESSION['email'];
+			$otp_code = $_POST['otp'];
+		
+			if($otp != $otp_code){
+				?>
+			   <script>
+				   alert("Invalid OTP code");
+			   </script>
+			   <?php
+			}else{
+				$_SESSION['authentication'] = 1;
+
+				unset($_SESSION['otp']);
+				unset($_SESSION['email']);
+				unset($_SESSION['user_id']);
+
+				if ($_SESSION['role']=="admin"){
+					header ('location:dashboard.php');
+				} else {
+					header ('location:staffDashboard.php');
+				}
 			}
 		}
 		return $_SESSION['email'];
@@ -686,6 +724,16 @@ Class Hardware {
 				$productInfo = $sql->fetchAll();
 
 				return $productInfo;
+
+			} else if (isset($_POST['betweenDates'])) {
+				$fromDate = $_POST['from'];
+				$toDate = $_POST['to'];
+
+				$sql = $connection->prepare("SELECT *,inventory.product_name, inventory.product_brand, inventory.price, transaction_num.date, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE quantity_bought != '0' AND transaction_num.transacState = 'completed' AND transaction_num.date BETWEEN '$fromDate' AND '$toDate' ORDER BY transaction_num.transaction_id DESC; ");
+				$sql->execute();
+				$productInfo = $sql->fetchAll();
+
+				return $productInfo;
 			} else {
 				return $productInfo;
 			}
@@ -1017,6 +1065,16 @@ Class Hardware {
 				$sql->execute();
 				$topSelling = $sql->fetchAll();
 
+				if (isset($_POST['betweenDates'])){
+					$fromDate = $_POST['from'];
+					$toDate = $_POST['to'];
+
+					$sql = $connection->prepare("SELECT transaction_num.date, SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.*, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE transaction_num.transacState = 'completed' AND transaction_num.date BETWEEN '$fromDate' AND '$toDate' GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC LIMIT 5;");
+					$sql->execute();
+					$topSelling = $sql->fetchAll();
+
+					return $topSelling;
+				}
 				return $topSelling;
 			}
 
@@ -1032,6 +1090,17 @@ Class Hardware {
 				$sql = $connection->prepare("SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.*, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE transaction_num.transacState = 'completed' GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC;");
 				$sql->execute();
 				$topSelling = $sql->fetchAll();
+
+				if (isset($_POST['betweenDates'])){
+					$fromDate = $_POST['from'];
+					$toDate = $_POST['to'];
+
+					$sql = $connection->prepare("SELECT transaction_num.date, SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.*, transaction_num.transacState FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id INNER JOIN transaction_num ON transaction.transaction_id = transaction_num.transaction_id WHERE transaction_num.transacState = 'completed' AND transaction_num.date BETWEEN '$fromDate' AND '$toDate' GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC;");
+					$sql->execute();
+					$topSelling = $sql->fetchAll();
+
+					return $topSelling;
+				}
 
 				return $topSelling;
 			}
@@ -1074,7 +1143,19 @@ Class Hardware {
 					$cancelledItems = $sql->fetchAll();
 
 					return $cancelledItems;
+
+				} else if (isset($_POST['betweenDates'])) {
+					$fromDate = $_POST['from'];
+					$toDate = $_POST['to'];
+
+					$sql = $connection->prepare("SELECT * FROM cancelled_order WHERE date BETWEEN '$fromDate' AND '$toDate';");
+					$sql->execute();
+					$cancelledItems = $sql->fetchAll();
+
+					return $cancelledItems;
+
 				} else {
+
 					return $cancelledItems;
 				}
 			}
@@ -1101,6 +1182,17 @@ Class Hardware {
 					$stockInRecord = $sql->fetchAll();
 
 					return $stockInRecord;
+	
+				} else if (isset($_POST['betweenDates'])) {
+					$fromDate = $_POST['from'];
+					$toDate = $_POST['to'];
+
+					$sql = $connection->prepare("SELECT *,stockin.stock_by,inventory.product_brand FROM stock_in_history INNER JOIN stockin ON stock_in_history.stockin_id = stockin.stockin_id INNER JOIN inventory ON stock_in_history.barcode = inventory.barcode WHERE stock_date BETWEEN '$fromDate' AND '$toDate' ORDER BY stock_in_history.stockin_id DESC; ");
+					$sql->execute();
+					$stockInRecord = $sql->fetchAll();
+
+					return $stockInRecord;
+
 				} else {
 					return $stockInRecord;
 				}
@@ -1128,6 +1220,16 @@ Class Hardware {
 					$transactionRecords = $sql->fetchAll();
 
 					return $transactionRecords;
+
+				} else if (isset($_POST['betweenDates'])) {
+					$fromDate = $_POST['from'];
+					$toDate = $_POST['to'];
+
+					$sql = $connection->prepare("SELECT transaction_num.*, CONCAT(user.fname,' ', user.lname) AS cashier_name FROM transaction_num INNER JOIN user ON transaction_num.cashier_id = user.user_id WHERE transacState = 'completed' AND transaction_num.date BETWEEN '$fromDate' AND '$toDate' ORDER BY transaction_id DESC; ");
+					$sql->execute();
+					$stockInRecord = $sql->fetchAll();
+
+					return $stockInRecord;
 				} else {
 					return $transactionRecords;
 				}

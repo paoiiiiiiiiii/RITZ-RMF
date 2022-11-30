@@ -27,7 +27,13 @@ $time = date("h:i:sa");
             <div class="flex">
                 <a href="stockInRecord.php"><button class="ml-10 mt-5 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm w-24">Back</button></a>
                 <button onClick="window.print()" class="ml-5 mt-5 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm w-24">Print</button>
-                
+                <!-- <form class="w-2/5 mt-5 ml-5 flex" method='post' action='stockInRecordPrint.php'>
+                    <label class="text-sm text-[#2986CC] mt-2">From</label>
+                    <input type="date" name="from" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm"></input>
+                    <label class="ml-2 text-sm text-[#2986CC] mt-2">To</label>
+                    <input type="date" name="to" class="ml-2 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm"></input>
+                    <button type="submit" name="betweenDates" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Filter</button>
+                </form> -->
             </div>
 
             <div class="items-center mb-4">
@@ -47,7 +53,7 @@ $time = date("h:i:sa");
                     <table class="justify-self-stretch w-full m-auto mt-3">
                         <thead class="font-bold text-md">
                                         <td class="pl-2 rounded-tl-md py-2">#</td>
-                                        <td class="py-2">Trans No.</td>
+                                        <td class="py-2 pl-2">Trans No.</td>
                                         <td class="py-2">PCode</td>
                                         <td class="py-2">Barcode</td>
                                         <td class="py-2">Description</td>

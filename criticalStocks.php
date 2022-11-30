@@ -96,7 +96,7 @@ $time = date("h:i:sa");
                         </table>
 
                         <?php if(!$criticalStock) {?>
-                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO TRANSACTION YET!</p></div>
+                            <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO CRITICAL STOCKS YET!</p></div>
                         <?php } ?>
                     </div>
                 </div>

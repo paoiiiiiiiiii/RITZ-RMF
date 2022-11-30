@@ -1,6 +1,7 @@
 <?php 
 require_once('ritzrmfserver.php');
 $rmf = new Hardware();
+$message = $rmf->message();
 $user = $rmf->registerUser();
 
 date_default_timezone_set('Asia/Manila');
@@ -22,6 +23,11 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-screen items-center bg-[#9ed5f0]">
+            <?php if ($message) { ?>
+                <div class="bg-[#ff6363] rounded-md pl-3 h-8 py-2 w-full flex justify-center">
+                <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                </div>
+            <?php } ?>
             <div class="rounded-md p-20 pb-5 drop-shadow-2xl h-max">
                 <div class="w-full flex h-[40rem]">
                     <div class="w-full bg-[#f0faff] rounded-md flex justify-center grid grid-cols-2">

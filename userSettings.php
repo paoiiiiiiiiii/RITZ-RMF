@@ -64,12 +64,12 @@ $time = date("h:i:sa");
 
                                 <ul>
                                     <label class="text-[#2986CC] text-lg mr-20"><b>New Password: </b></label>
-                                    <input type="password" name="newPassword" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-1"></input>
+                                    <input type="password" name="newPassword" minlength="8" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-1" placeholder="(Min. of 8 characters)"></input>
                                 </ul>
 
                                 <ul>
                                     <label class="text-[#2986CC] text-lg mr-2"><b>Re-type New Password: </b></label>
-                                    <input type="password" name="newPassword1" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-1"></input>
+                                    <input type="password" name="newPassword1" minlength="8" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-1" placeholder="(Min. of 8 characters)"></input>
                                 </ul>
 
                                 <ul class="flex justify-center">
