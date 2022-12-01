@@ -1,6 +1,7 @@
 <?php 
 require_once('mailer.php');
 session_start();
+error_reporting(E_ALL & ~E_NOTICE);
 Class Hardware {
 	
 

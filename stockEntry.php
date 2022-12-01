@@ -27,7 +27,7 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 pb-2 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -51,66 +51,62 @@ $time = date("h:i:sa");
                     </div>
                 </div>
 
-                <div class="bg-[#eaf8ff] flex p-2 px-5">
-                    <div class="justify-self-start w-3/5 flex items-center grid grid-rows-4">
-                        <div>
-                            <form method="post" action="stockEntry.php">
-                                <label class="text-[#2986CC] text-sm"><b>Reference No: </b></label>
-                                <input type="text" name="refNo" class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-45 ml-3 px-2" value = "<?= $session?>" disabled>
+                <div class="bg-[#f0faff] p-2 px-5 ">
+                <div class="bg-[#67b0e7] flex p-2 px-5 grid grid-cols-3 rounded-md">
+                    <div class="col-span-2 flex items-center grid grid-rows-4">
+                        <div class="">
+                            <form method="post" action="stockEntry.php" class="grid grid-cols-6">
+                                <label class="text-white text-sm"><b>Reference No: </b></label>
+                                <input type="text" name="refNo" class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $session?>" disabled>
                                 <?php if (!$session) {?>
-                                    <button class="w-20 text-sm text-white rounded-lg bg-[#67b0e7] p-1 mt-1 text-white hover:bg-[#2986CC]" type="submit" name="generate">Generate</button>
+                                    <button class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mb-1" type="submit" name="generate">Generate</button>
                                 <?php } else { ?>
-                                    <button class="w-20 text-sm text-white rounded-lg bg-[#67b0e7] p-1 mt-1 text-white" type="submit" name="generate" disabled>Generate</button>
+                                    <button class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] mb-1" type="submit" name="generate" disabled>Generate</button>
                                 <?php } ?>
                             
                         </div>
 
-                        <div>
-                            <label class="text-[#2986CC] text-sm"><b>Stock in by: </b></label>
-                            <input type="text" name="name" class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-7 px-2" value = "<?= $users['fname'];?> <?= $users['lname'];?>" hidden>
-                            <input type="text" name="show" class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-7 px-2" placeholder = "<?= $users['fname'];?> <?= $users['lname'];?>" disabled>
+                        <div class="grid grid-cols-6">
+                            <label class="text-white text-sm"><b>Stock in by: </b></label>
+                            <input type="text" name="name" class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $users['fname'];?> <?= $users['lname'];?>" hidden>
+                            <input type="text" name="show" class="rounded-md bg-[#efefef] p-1 text-sm mb-1 col-span-2" placeholder = "<?= $users['fname'];?> <?= $users['lname'];?>" disabled>
                             </form>
                         </div>
 
-                        <div>
-                            <a href="adminProducts.php"><button class="w-64 text-sm text-white rounded-lg bg-[#67b0e7] p-1 mt-1 ml-28 text-white hover:bg-[#2986CC]">View Products</button></a>
+                        <div class="grid grid-cols-6 text-center">
+                            <a href="adminProducts.php" class="col-span-3 text-sm text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mb-1 p-1"><button class="">View Products</button></a>
                         </div>
-                        <div class="mt-2">
-                            <form method="post" action="stockEntry.php">
-                            <input type="text" name="pcode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2" placeholder="Product Code">
-                            <input type="text" name="barcode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2" placeholder="Barcode">
-                            <input type="text" name="desc" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-1 px-2" placeholder="Description">
-                            <input type="number" name="quantity" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2" placeholder="Quantity">
-                            <button type="submit" name="addStock" class="w-24 text-sm text-white rounded-lg bg-[#67b0e7] p-1 text-white hover:bg-[#2986CC]">Add Product</button>                       
+                        <div class="">
+                            <form method="post" action="stockEntry.php" class="grid grid-cols-6">
+                            <input type="text" name="pcode" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" placeholder="Product Code">
+                            <input type="text" name="barcode" required class="ml-1 rounded-md bg-[#efefef] p-1 text-sm mb-1" placeholder="Barcode">
+                            <input type="text" name="desc" required class="ml-1 col-span-2 rounded-md bg-[#efefef] p-1 text-sm mb-1" placeholder="Description">
+                            <input type="number" name="quantity" required class="ml-1 rounded-md bg-[#efefef] p-1 text-sm mb-1" placeholder="Quantity">
+                            <button type="submit" name="addStock" class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mb-1">Add Product</button>                       
                         </div>
                     </div>
 
-                    <div class="justify-self-stretch mx-3 w-2/5 px-4 flex items-center grid grid-rows-4">
-                        <div>
-                            <label class="text-[#2986CC] text-sm"><b>Supplier: </b></label>
-                            <input type="text" name="supplier" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-14 px-2" value = "">
-                        </div>
+                    <div class="col-span-1 px-4 flex items-center grid grid-rows-4 grid-cols-2">
+                            <label class="text-white text-sm"><b>Supplier: </b></label>
+                            <input type="text" name="supplier" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "">
 
-                        <div>
-                            <label class="text-[#2986CC] text-sm"><b>Contact Person: </b></label>
-                            <input type="text" name="contactPerson" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-2 px-2" value = "">
-                        </div>
+                            <label class="text-white text-sm"><b>Contact Person: </b></label>
+                            <input type="text" name="contactPerson" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "">
 
-                        <div>
-                            <label class="text-[#2986CC] text-sm"><b>Address: </b></label>
-                            <input type="text" name="address" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-64 ml-14 px-2" value = "">
-                        </div>
+                            <label class="text-white text-sm"><b>Address: </b></label>
+                            <input type="text" name="address" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "">
                             </form>
 
-                        <div>
-                            <form method="post" action="stockEntry.php">
-                            <button class="w-24 rounded-lg bg-[#1bcb00] text-white hover:bg-[#159d00] p-1 text-sm" type="submit" name="save">Save</button>
+                            <form method="post" action="stockEntry.php" class="col-span-2 grid grid-cols-3">
+                                <div></div>
+                                <div></div>
+                                <button class="w-full rounded-lg bg-[#1bcb00] text-white hover:bg-[#159d00] p-1 text-sm" type="submit" name="save">Save</button>
                             </form>
-                        </div>
                     </div>
                 </div>
+                </div>
 
-                <div class="w-100% flex h-[22rem]">
+                <div class="w-100% flex h-[20rem]">
                     <div class="justify-self-start w-full bg-[#f0faff] px-5 rounded-bl-lg rounded-br-lg overflow-auto max-h-106">   
                         <table class="justify-self-stretch w-full m-auto ">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
@@ -144,7 +140,7 @@ $time = date("h:i:sa");
                             </table>
 
                             <?php if(!$presentStock) {?>
-                                    <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>NO TRANSACTION YET!</p></div>
+                                    <div class="mt-[6rem] text-lg text-[#67b0e7] flex text-center justify-center"><p>NO TRANSACTION YET!</p></div>
                             <?php } ?>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -40,15 +40,15 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch mx-3 w-3/5 px-4 flex items-center">
                         <p class="text-[2rem] text-[#2986CC] font-bold ml-4">PRODUCTS</p>
                     </div>
-                    <div class="justify-self-stretch w-1/5 flex">
+                    <div class="justify-self-stretch w-1/5 flex items-center justify-center">
                         <a href="dashboard.php">
-                            <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
+                            <button class="text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
                                 <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 47px; margin-right: auto;"><p>Back to Dashboard</p>
                             </button>
                         </a>
                     </div>
                 </div>
-                <div class="w-100% flex h-[32rem]">
+                <div class="w-100% flex h-[30rem]">
                     <div class="justify-self-start w-4/5 bg-[#f0faff] px-5 rounded-bl-lg rounded-br-lg overflow-auto max-h-106">   
                         <table class="justify-self-stretch w-full m-auto ">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
@@ -83,56 +83,52 @@ $time = date("h:i:sa");
                     </div>
 
                     <div class="w-1/5 bg-[#eaf8ff] p-5 rounded-br-lg flex-initial">
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[5rem] mb-4 p-2">
-                            <form method="post" action="adminProducts.php">
-                                <input type="text" name="searchTag" placeholder="Search Barcode" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
-                                <button type="submit" name="searchProduct" class="ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Search</button>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2">
+                            <form method="post" action="adminProducts.php" class="grid grid-cols-3">
+                                <input type="text" name="searchTag" placeholder="Search Barcode" class="rounded-md bg-[#efefef] p-1 col-span-2 text-sm" required></input>
+                                <button type="submit" name="searchProduct" class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] col-span-1">Search</button>
                             </form>
-                            <a href="adminProducts.php"><button class="w-full rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] mt-2 ">All</button></a>
+                            <a href="adminProducts.php"><button class="w-full rounded-lg text-md text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mt-2">All</button></a>
                             
                         </div>
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[15rem] mb-4 p-2">
-                            <form method="post" action="adminProducts.php">
-                                <b><p class="text-[#2986CC] text-center">Product Details:</p></b>
-                                <ul>
-                                <p class="text-sm text-[#2986CC] mt-2"><b>Product ID: </b><?= $productDetails['product_id'];?></p>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2 mt-2">
+                            <form method="post" action="adminProducts.php" class="grid grid-cols-2">
+                                <div class="col-span-2"><b><p class="text-white text-center">Product Details:</p></b></div>
+                                
+                                <p class="text-sm text-white mt-2 mb-1"><b>Product ID: </b></p>
+                                <p class="text-sm text-white mt-2"><?= $productDetails['product_id'];?></p>
                                 <input type="text" name="productID" value = "<?= $productDetails['product_id'];?>" hidden>
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>PCode: </b></label>
-                                <input type="text" name="productCode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2 mb-1" value = "<?= $productDetails['product_code'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Barcode: </b></label>
-                                <input type="number" name="barcode" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2 mb-1" value = "<?= $productDetails['barcode'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>PName: </b></label>
-                                <input type="text" name="prodName" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-3 px-2 mb-1" value = "<?= $productDetails['product_name'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Brand: </b></label>
-                                <input type="text" name="prodBrand" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2 mb-1" value = "<?= $productDetails['product_brand'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Price:</b></label>
-                                <input type="number" step="0.01" name="price" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2 mb-1" value = "<?= $productDetails['price'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Quantity: </b></label>
-                                <input type="number" name="quantity" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2 mb-1" value = "<?= $productDetails['quantity'];?>">
-                                </ul>
-                                <div class="my-7">
-                                    <button name="removeProduct" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Remove</button>
-                                    <button name="updateProduct" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Update</button>
+                                
+                            
+                                <label class="text-white text-sm"><b>PCode: </b></label>
+                                <input type="text" name="productCode" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['product_code'];?>">
+                                
+                                <label class="text-white text-sm"><b>Barcode: </b></label>
+                                <input type="number" name="barcode" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['barcode'];?>">
+
+                                <label class="text-white text-sm"><b>PName: </b></label>
+                                <input type="text" name="prodName" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['product_name'];?>">
+
+                                <label class="text-white text-sm"><b>Brand: </b></label>
+                                <input type="text" name="prodBrand" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['product_brand'];?>">
+
+                                <label class="text-white text-sm"><b>Price:</b></label>
+                                <input type="number" step="0.01" name="price" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['price'];?>">
+
+                                <label class="text-white text-sm"><b>Quantity: </b></label>
+                                <input type="number" name="quantity" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $productDetails['quantity'];?>">
+
+                                <div class="my-3 col-span-2 grid grid-cols-3">
+                                    <button name="removeProduct" type="submit" class="rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Remove</button>
+                                    <button name="updateProduct" type="submit" class="ml-1 rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Update</button>
                                     <?php if (!$productDetails['product_id']) { ?>
-                                        <button name="addProduct" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Add</button>
+                                        <button name="addProduct" type="submit" class="ml-1 rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Add</button>
                                     <?php } else {?>
-                                        <button name="addProduct" type="submit" class="ml-1 rounded-lg text-white bg-[#cdcdcd] p-2 text-sm" disabled>Add</button>
+                                        <button name="addProduct" type="submit" class="ml-1 rounded-lg text-white bg-[#cdcdcd] p-2 text-xs" disabled>Add</button>
                                     <?php }?>
                                     <?php if ($message) {?>
-                                        <div class="bg-[#1bcb00] rounded-md pl-3 my-3 py-2">
-                                            <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
+                                        <div class="bg-[#1bcb00] rounded-md pl-3 mt-3 py-2 col-span-3">
+                                            <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-xs"><?= $message ?></p>                                            
                                         </div>
                                     <?php } ?>
                                 </div>

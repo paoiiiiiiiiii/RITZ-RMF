@@ -26,7 +26,7 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -40,15 +40,15 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch mx-3 w-3/5 px-4 flex items-center">
                         <p class="text-[2rem] text-[#2986CC] font-bold ml-4">SUPPLIERS</p>
                     </div>
-                    <div class="justify-self-stretch w-1/5 flex">
+                    <div class="justify-self-stretch w-1/5 flex items-center justify-center">
                         <a href="dashboard.php">
-                            <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
+                            <button class="text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
                                 <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 47px; margin-right: auto;"><p>Back to Dashboard</p>
                             </button>
                         </a>
                     </div>
                 </div>
-                <div class="w-100% flex h-[32rem]">
+                <div class="w-100% flex h-[30rem]">
                     <div class="justify-self-start w-4/5 bg-[#f0faff] px-5 rounded-bl-lg rounded-br-lg overflow-auto max-h-106">   
                         <table class="justify-self-stretch w-full m-auto ">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
@@ -81,51 +81,47 @@ $time = date("h:i:sa");
                     </div>
 
                     <div class="w-1/5 bg-[#eaf8ff] p-5 rounded-br-lg flex-initial">
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[5rem] mb-4 p-2">
-                            <form method="post" action="suppliers.php">
-                                <input type="text" name="searchTag" placeholder="Search Product Name" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
-                                <button type="submit" name="searchSupplier" class="ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Search</button>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2">
+                            <form method="post" action="suppliers.php" class="grid grid-cols-3">
+                                <input type="text" name="searchTag" placeholder="Search Product Name" class="rounded-md bg-[#efefef] p-1 col-span-2 text-sm" required></input>
+                                <button type="submit" name="searchSupplier" class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] col-span-1">Search</button>
                             </form>
-                            <a href="suppliers.php"><button class="w-full rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] mt-2 ">All</button></a>
+                            <a href="suppliers.php"><button class="w-full rounded-lg text-md text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mt-2">All</button></a>
                             
                         </div>
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[13rem] mb-4 p-2">
-                            <form method="post" action="suppliers.php">
-                                <b><p class="text-[#2986CC] text-center">Supplier Details:</p></b>
-                                <ul>
-                                <p class="text-sm text-[#2986CC] mt-2"><b>Supplier ID: </b><?= $supplierDetails['supplier_id'];?></p>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2 mt-2">
+                            <form method="post" action="suppliers.php" class="grid grid-cols-2">
+                                <div class="col-span-2"><b><p class="text-white text-center">Supplier Details:</p></b></div>
+                                
+                                <p class="text-sm text-white mt-2 mb-1"><b>Supplier ID: </b></p>
+                                <p class="text-sm text-white mt-2"><?= $supplierDetails['supplier_id'];?></p>
                                 <input type="text" name="supplierID" value = "<?= $supplierDetails['supplier_id'];?>" hidden>
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Supplier: </b></label>
-                                <input type="text" name="name" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2" value = "<?= $supplierDetails['product'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Address: </b></label>
-                                <input type="text" name="address" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2" value = "<?= $supplierDetails['address'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Contact Person: </b></label>
-                                <input type="text" name="contactPerson" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 px-2" value = "<?= $supplierDetails['contact_person'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Contact No. </b></label>
-                                <input type="text" name="contactNum" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-3 px-2" value = "<?= $supplierDetails['contact_no'];?>">
-                                </ul>
-                                <ul>
-                                <label class="text-[#2986CC] text-sm"><b>Email: </b></label>
-                                <input type="text" name="email" required class="outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-4 px-2" value = "<?= $supplierDetails['email'];?>">
-                                </ul>
-                                <div class="my-3">
-                                    <button name="removeSupplier" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Remove</button>
-                                    <button name="updateSupplier" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Update</button>
+                                
+                                <label class="text-white text-sm"><b>Supplier: </b></label>
+                                <input type="text" name="name" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $supplierDetails['product'];?>">
+
+                                <label class="text-white text-sm"><b>Address: </b></label>
+                                <input type="text" name="address" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $supplierDetails['address'];?>">
+
+                                <label class="text-white text-sm"><b>Contact: </b></label>
+                                <input type="text" name="contactPerson" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $supplierDetails['contact_person'];?>">
+
+                                <label class="text-white text-sm"><b>Contact No. </b></label>
+                                <input type="text" name="contactNum" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $supplierDetails['contact_no'];?>">
+
+                                <label class="text-white text-sm"><b>Email: </b></label>
+                                <input type="text" name="email" required class="rounded-md bg-[#efefef] p-1 text-sm mb-1" value = "<?= $supplierDetails['email'];?>">
+
+                                <div class="my-3 col-span-2 grid grid-cols-3">
+                                    <button name="removeSupplier" type="submit" class="rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Remove</button>
+                                    <button name="updateSupplier" type="submit" class="ml-1 rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Update</button>
                                     <?php if (!$supplierDetails['supplier_id']) { ?>
-                                        <button name="addSupplier" type="submit" class="ml-1 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">Add</button>
+                                        <button name="addSupplier" type="submit" class="ml-1 rounded-lg text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] p-2 text-xs">Add</button>
                                     <?php } else {?>
-                                        <button name="addSupplier" type="submit" class="ml-1 rounded-lg text-white bg-[#cdcdcd] p-2 text-sm" disabled>Add</button>
+                                        <button name="addSupplier" type="submit" class="ml-1 rounded-lg text-white bg-[#cdcdcd] p-2 text-xs" disabled>Add</button>
                                     <?php }?>
                                     <?php if ($message) {?>
-                                        <div class="bg-[#1bcb00] rounded-md pl-3 my-3 py-2">
+                                        <div class="bg-[#1bcb00] rounded-md pl-3 mt-3 py-2 col-span-3">
                                             <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
                                         </div>
                                     <?php } ?>

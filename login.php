@@ -23,8 +23,8 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-screen items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl h-max">
-                <div class="w-full flex h-[40rem]">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl h-max">
+                <div class="w-full flex h-[35rem]">
                     <div class="w-full bg-[#f0faff] rounded-md flex justify-center grid grid-cols-2">
                         <div class="flex justify-center items-center">
                             <img src="static/images/logo2.png" width="700" height="700">

@@ -29,7 +29,7 @@ $time = date("h:i:sa");
     </head>
     <body>    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -50,7 +50,7 @@ $time = date("h:i:sa");
                     <p class="text-[2rem] text-[#2986CC] font-bold ml-4">PHP <?= $total ?></p>
                     </div>
                 </div>
-                <div class="w-100% flex h-[32rem]">
+                <div class="w-100% flex h-[30rem]">
                     <div class="justify-self-start w-4/5 bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106">
                         <table class="justify-self-stretch w-full m-auto ">
                             <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
@@ -77,25 +77,25 @@ $time = date("h:i:sa");
                             <?php }?>
                         </table>
                         <?php if(!$cart) {?>
-                                <div class="ml-[20rem] mt-[10rem] text-lg text-[#67b0e7]"><p>THERE ARE NO PRODUCTS IN THE CART YET!</p></div>
+                                <div class="mt-[10rem] text-lg text-[#67b0e7] text-center"><p>THERE ARE NO PRODUCTS IN THE CART YET!</p></div>
                         <?php } ?>
                         
                     </div>
 
                     <div class="w-1/5 bg-[#eaf8ff] p-5 rounded-br-lg flex-initial">
                         
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[8rem]">
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7]">
                             
                             <div class="place-items-center">
-                                <div class="p-2">
-                                    <form action="staffDashboard.php" method="post" class=>         
-                                            <p class="text-[#2986CC] mb-2">Customer Name:</p>
+                                <div class="pt-1 pb-2 px-2">
+                                    <form action="staffDashboard.php" method="post">         
+                                            <p class="text-white mb-1 text-sm">Customer Name:</p>
                                         <?php if (!$session) { ?>
-                                            <input type="text" name="soldTo" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent w-4/5 "> 
-                                            <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="newTransac">New Transaction</button>
+                                            <input type="text" name="soldTo" required class="rounded-md bg-[#efefef] w-full p-1"> 
+                                            <button type="submit" class="text-xs text-white bg-[#5094c8] p-2 mt-2 rounded-full hover:bg-[#eaf8ff] hover:text-[#2986CC] w-full" name="newTransac">New Transaction</button>
                                         <?php } else { ?>
-                                            <input type="text" name="soldTo" required class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent w-4/5 " placeholder="<?= $transac['soldTo']; ?>" disabled> 
-                                            <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white" name="newTransac" disabled>New Transaction</button>
+                                            <input type="text" name="soldTo" required class="rounded-md bg-[#efefef] w-full p-1" placeholder="<?= $transac['soldTo']; ?>" disabled> 
+                                            <button type="submit" class="text-xs text-white bg-[#5094c8] p-2 mt-2 rounded-full w-full" name="newTransac" disabled>New Transaction</button>
                                         <?php } ?>
                                     </form>
                                 </div>
@@ -108,14 +108,14 @@ $time = date("h:i:sa");
                             <a href="history.php"><button class="w-full mb-3 rounded-full bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">HISTORY</button><a>
                         </div>
 
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[11rem]">
-                            <div class="p-2">
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7]">
+                            <div class="pt-1 pb-2 px-2">
                                 <form action="staffDashboard.php" method="post">
-                                    <p class="text-[#2986CC] text-sm mb-1">Enter Money: </p>
-                                    <input type="number" name="money" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent mb-2" required>
-                                    <p class="text-[#2986CC] text-sm mb-1">Enter Discount: </p>
-                                    <input type="number" name="discount" value="0" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent">
-                                    <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="settlePayment">Settle Payment</button>
+                                    <p class="text-white mb-1 text-sm">Enter Money: </p>
+                                    <input type="number" name="money" step="0.01" class="rounded-md bg-[#efefef] w-full p-1" required>
+                                    <p class="text-white mb-1 text-sm">Enter Discount: </p>
+                                    <input type="number" name="discount" value="0" step="0.01" class="rounded-md bg-[#efefef] w-full p-1">
+                                    <button type="submit" class="text-xs text-white bg-[#5094c8] p-2 mt-2 rounded-full hover:bg-[#eaf8ff] hover:text-[#2986CC] w-full" name="settlePayment">Settle Payment</button>
                                 </form>
                             </div>
                         </div>

@@ -51,7 +51,7 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 pb-2 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -70,16 +70,16 @@ $time = date("h:i:sa");
                         <a href="cancelledItems.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer ">CANCELLED ITEMS</p></a>
                         <a href="stockInRecord.php"><p class="text-xs text-[#2986CC] font-bold ml-3 outline outline-offset-1 outline-[#2986CC] rounded-md bg-transparent p-2 hover:bg-[#67b0e7] hover:text-white cursor-pointer">STOCK IN HISTORY</p></a>
                     </div>
-                    <div class="justify-self-stretch w-1/5 flex">
+                    <div class="justify-self-stretch w-1/5 flex items-center justify-center">
                         <a href="soldItems.php">
-                            <button class="ml-10 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
+                            <button class="text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
                                 <img src="static/icons/back.png" width="25" height="25" style="  display: block; margin-left: 23px; margin-right: auto;"><p>Back to List</p>
                             </button>
                         </a>
                     </div>
                 </div>
 
-                <div class="w-full flex h-[32rem]">
+                <div class="w-full flex h-[30rem]">
                     <div class="justify-self-start w-full bg-[#f0faff] px-5 rounded-bl-lg overflow-auto max-h-106 content-center">
                         <div id="piechart" style="width: 800px; height: 700px;" class="m-auto"></div>
                     </div>

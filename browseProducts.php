@@ -27,7 +27,7 @@ $time = date("h:i:sa");
     </head>
     <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>
@@ -41,15 +41,15 @@ $time = date("h:i:sa");
                     <div class="justify-self-stretch mx-3 w-3/5 px-4 flex items-center">
                         <p class="text-[2rem] text-[#2986CC] font-bold ml-4">AVAILABLE PRODUCTS</p>
                     </div>
-                    <div class="justify-self-stretch w-1/5 flex">
+                    <div class="justify-self-stretch w-1/5 flex items-center justify-center">
                         <a href="staffDashboard.php">
-                            <button class="ml-20 text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
+                            <button class="text-sm text-white rounded-lg bg-[#67b0e7] p-2 text-white hover:bg-[#2986CC]">
                                 <img src="static/icons/cart.png" width="25" height="25" style="  display: block; margin-left: 21px; margin-right: auto;"><p>Back to Cart</p>
                             </button>
                         </a>
                     </div>
                 </div>
-                <div class="w-100% flex h-[32rem]">
+                <div class="w-100% flex h-[30rem]">
                     <div class="justify-self-start w-4/5 bg-[#f0faff] px-5 rounded-bl-lg rounded-br-lg overflow-auto max-h-106">   
                         <table class="justify-self-stretch w-full m-auto ">
                                     <thead class="font-bold text-md bg-[#67b0e7] text-white sticky top-0">
@@ -79,45 +79,44 @@ $time = date("h:i:sa");
                             </table>
 
                             <?php if(!$products) {?>
-                                    <div class="ml-[20rem] mt-[10rem] text-lg text-[#67b0e7]"><p>PLEASE CHECK THE BARCODE!</p></div>
+                                    <div class="text-center mt-[10rem] text-lg text-[#67b0e7]"><p>PLEASE CHECK THE BARCODE!</p></div>
                             <?php } ?>
                     </div>
 
                     <div class="w-1/5 bg-[#eaf8ff] p-5 rounded-br-lg flex-initial">
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[5rem] mb-4 p-2">
-                            <form method="post" action="browseProducts.php">
-                                <input type="text" name="searchTag" placeholder="Search Barcode" class="w-32 outline outline-offset-2 outline-[#2986CC] rounded-md text-sm bg-transparent text-md text-[#2986CC]" required></input>
-                                <button type="submit" name="searchProduct" class="ml-2 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-1 text-sm">Search</button>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2">
+                            <form method="post" action="browseProducts.php" class="grid grid-cols-3">
+                                <input type="text" name="searchTag" placeholder="Search Barcode" class="rounded-md bg-[#efefef] p-1 col-span-2 text-sm" required></input>
+                                <button type="submit" name="searchProduct" class="ml-1 text-xs text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] col-span-1">Search</button>
                             </form>
-                            <a href="browseProducts.php"><button class="w-full rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] mt-2 ">All</button></a>
-                            
+                            <a href="browseProducts.php"><button class="w-full rounded-lg text-md text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mt-2">All</button></a>                        
                         </div>
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[11rem] mb-4 p-2">
-                            <p class="text-sm text-[#2986CC]"><b>Product ID: </b><?= $productAdd['product_id'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>PCode: </b><?= $productAdd['product_code'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>Barcode: </b><?= $productAdd['barcode'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>Product Name: </b><?= $productAdd['product_name'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>Product Brand: </b><?= $productAdd['product_brand'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>Price per piece: </b><?= $productAdd['price'];?></p>
-                            <p class="text-sm text-[#2986CC]"><b>Quantity Available: </b><?= $productAdd['quantity'];?></p>
+                        <div class="flex-1 items-center rounded-md h-auto bg-[#67b0e7] p-2 mt-3">
+                            <p class="text-sm text-white"><b>Product ID: </b><?= $productAdd['product_id'];?></p>
+                            <p class="text-sm text-white"><b>PCode: </b><?= $productAdd['product_code'];?></p>
+                            <p class="text-sm text-white"><b>Barcode: </b><?= $productAdd['barcode'];?></p>
+                            <p class="text-sm text-white"><b>Product Name: </b><?= $productAdd['product_name'];?></p>
+                            <p class="text-sm text-white"><b>Product Brand: </b><?= $productAdd['product_brand'];?></p>
+                            <p class="text-sm text-white"><b>Price per piece: </b><?= $productAdd['price'];?></p>
+                            <p class="text-sm text-white"><b>Quantity Available: </b><?= $productAdd['quantity'];?></p>
                         </div>
 
-                        <div class="flex-1 items-center outline outline-offset-2 outline-[#2986CC] rounded-md h-[10rem] my-4">
-                            <div class="p-2">
+                        <div class="flex-1 items-center rounded-md h-24 bg-[#67b0e7] p-2 mt-3">
+                            <div class="">
                                 <form method="post" action="browseProducts.php">
                                     <div class="input-group">
-                                        <label class="text-[#2986CC] text-sm"><b>Quantity: </b></label>
-                                        <input type="number" name="quantity" required min="1" max="<?= $productAdd['quantity'];?>" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1">
+                                        <label class="text-white mb-1 text-sm"><b>Quantity: </b></label>
+                                        <input type="number" name="quantity" required min="1" max="<?= $productAdd['quantity'];?>" class="rounded-md bg-[#efefef] p-1 text-sm w-24 ml-2">
                                         <!-- <label class="text-[#2986CC] text-sm"><b>Discount: </b></label>
                                         <input type="number" name="discount" value="0" step="0.01" class="outline outline-offset-2 outline-[#2986CC] rounded-md bg-transparent text-sm text-[#2986CC] w-24 ml-1 mt-4"> -->
                                         <input type="number" name="addProd" value="<?= $productAdd['product_id'];?>" hidden ></input>
                                         <?php if ($session && $productAdd) { ?>
-                                            <button type="submit" class="text-sm text-white mb-2 rounded-lg bg-[#67b0e7] p-2 my-3 text-white hover:bg-[#2986CC]" name="addCart">
+                                            <button type="submit" class="w-full rounded-lg text-md text-white bg-[#5094c8] rounded-md hover:bg-[#eaf8ff] hover:text-[#2986CC] mt-2 p-2" name="addCart">
                                                 Add to Cart
                                             </button>
                                         <?php }?>
                                         <?php if ($message) {?>
-                                            <div class="bg-[#1bcb00] rounded-md pl-3 h-10 py-2 my-10">
+                                            <div class="bg-[#1bcb00] rounded-md pl-3 py-1 mt-1">
                                                 <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
                                             </div>
                                         <?php } ?>
