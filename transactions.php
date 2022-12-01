@@ -67,7 +67,7 @@ $time = date("h:i:sa");
                             <div class="w-1/5">
                                 <a href="transactions.php"><button class="w-24 ml-4 rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm">All</button></a>
                             </div>
-                            <div class="w-1/5">
+                            <div class="w-1/5 pr-5">
                                 <a href="transactionsPrint.php"><button class=" w-full rounded-lg bg-[#67b0e7] text-white hover:bg-[#2986CC] p-2 text-sm ml-5">Print</button></a>
                             </div>
                         </div>   

@@ -27,7 +27,7 @@ $time = date("h:i:sa");
                 href="main.css">
         <link href="styles.css" rel="stylesheet">
     </head>
-    <body>    	
+    <body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
             <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
