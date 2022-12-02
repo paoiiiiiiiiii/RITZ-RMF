@@ -19,10 +19,10 @@ $time = date("h:i:sa");
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-	<body>    	
+	<body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
             <div class="rounded-md p-20 pb-5 drop-shadow-2xl">
-                <p>You do not have access to this page!</p>
+                <p>You do not have access to this page! :(</p>
             </div>
             <p class="pb-2 bg-[#9ed5f0] pl-20 text-white text-lg"><b>Date: </b><?= $date ?> <?= $dateDay ?></p>
         </div>

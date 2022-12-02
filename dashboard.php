@@ -3,6 +3,8 @@ require_once('ritzrmfserver.php');
 $rmf = new Hardware();
 $users = $rmf->home();
 $role = $rmf->roleChecker();
+$pastSale = $rmf->getPastSales();
+$pastCancel = $rmf->getPastCancel();
 
 date_default_timezone_set('Asia/Manila');
 $date = date("Y-m-d");
@@ -40,9 +42,13 @@ $criticalItems = $rmf->getCriticalItems();
         ['2020', 1000000],
         ['2021', 1200000],
 
-                <?php
-                    echo "['2022',".$yearlySales."],";
-                ?>
+            <?php foreach ($pastSale as $pastSales){ ?>
+                <?php foreach ($pastCancel as $pastCancels){ ?>
+                    <?php if ($pastSales['year'] == $pastCancels['year']) { $past = $pastSales['total'] - $pastCancels['totalCancel']; $year = $pastSales['year'];?>
+                        <?php echo "[".$year.",".$past."],"; ?>
+                    <?php } ?>
+                <?php } ?>
+            <?php } ?>
 
         ]);
 
@@ -61,7 +67,7 @@ $criticalItems = $rmf->getCriticalItems();
 <body>
 	<body class="bg-[#9ed5f0]">    	
         <div class="w-100% h-100% items-center bg-[#9ed5f0]">
-            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl">
+            <div class="rounded-md py-10 px-20 pb-5 drop-shadow-2xl">
                 <div class="bg-[#eaf8ff] flex rounded-t-lg p-5 divide-x-4 divide-[#67b0e7]">
                     <div class="justify-self-start w-1/5 flex items-center">
                         <div>

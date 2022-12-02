@@ -28,8 +28,8 @@ $time = date("h:i:sa");
                 <p onclick="this.parentElement.style.display='none';" class="text-white cursor-pointer text-sm"><?= $message ?></p>                                            
                 </div>
             <?php } ?>
-            <div class="rounded-md py-5 px-20 pb-5 drop-shadow-2xl h-max">
-                <div class="w-full flex h-[35rem]">
+            <div class="rounded-md py-10 px-20 pb-5 drop-shadow-2xl h-max">
+                <div class="w-full flex h-auto">
                     <div class="w-full bg-[#f0faff] rounded-md flex justify-center grid grid-cols-2">
                         <div class="flex justify-center items-center">
                             <img src="static/images/logo2.png" width="700" height="700">

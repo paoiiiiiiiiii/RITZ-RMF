@@ -1,4 +1,5 @@
 <?php
+//project done by - JPRX
 //Include required PHPMailer files
 require 'includes/PHPMailer.php';
 require 'includes/SMTP.php';

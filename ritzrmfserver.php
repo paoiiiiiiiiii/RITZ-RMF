@@ -876,6 +876,26 @@ Class Hardware {
 		return $yearlySales-$yearlyCancelledSales;
 	}
 
+	public function getPastSales() {
+		$connection = $this->openConnection();
+		$query = "SELECT EXTRACT(YEAR FROM date) AS year, SUM(amount) AS total FROM transaction_num WHERE transacState = 'completed' GROUP BY EXTRACT(YEAR FROM date);";
+		$sql = $connection->prepare($query);
+		$sql->execute();
+		$sales = $sql->fetchAll();
+
+		return $sales;
+	}
+
+	public function getPastCancel(){
+		$connection = $this->openConnection();
+		$query = "SELECT EXTRACT(YEAR FROM date) AS year, SUM(total_cancelled) AS totalCancel FROM cancelled_order GROUP BY EXTRACT(YEAR FROM date);";
+		$sql = $connection->prepare($query);
+		$sql->execute();
+		$cancelledSales = $sql->fetchAll();
+
+		return $cancelledSales;
+	}
+
 	public function getProductLine(){
 		$connection = $this->openConnection();
 		$sql = $connection->prepare("SELECT * FROM inventory;");
@@ -1242,6 +1262,7 @@ Class Hardware {
 	}
 
 }
+//done - JPRX
 ?>
 
 <!-- npx tailwindcss -i input.css -o styles.css --watch -->
@@ -1254,3 +1275,5 @@ Class Hardware {
 <!-- SELECT SUM(transaction.quantity_bought) AS total_sold, SUM(transaction.total_price) AS total_sale, transaction.product_id, inventory.* FROM transaction INNER JOIN inventory ON transaction.product_id = inventory.product_id GROUP BY transaction.product_id ORDER BY SUM(transaction.quantity_bought) DESC; -->
 <!-- select Date, TotalAllowance from Calculation where EmployeeId = 1
              and Date between '2011/02/25' and '2011/02/27' -->
+			 <!-- SELECT EXTRACT(YEAR FROM date) AS year, SUM(amount) FROM transaction_num WHERE transacState = 'completed' GROUP BY EXTRACT(YEAR FROM date); -->
+			 <!-- SELECT EXTRACT(YEAR FROM date) AS year, SUM(total_cancelled) AS totalCancel FROM cancelled_order GROUP BY EXTRACT(YEAR FROM date); -->
